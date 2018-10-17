@@ -63,3 +63,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # DeviseのGemを追加
 gem 'devise'
+
+# Bootstrapをインストール
+gem 'bootstrap-sass', '3.3.7'
