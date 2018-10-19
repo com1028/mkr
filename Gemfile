@@ -73,3 +73,6 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-doc'
 end
+
+# Validationのエラーメッセージを日本語に変更
+gem 'rails-i18n'
