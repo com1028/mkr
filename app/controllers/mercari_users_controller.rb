@@ -20,7 +20,7 @@ class MercariUsersController < ApplicationController
         end
     end
 
-      # メルカリアカウント情報のstrongパラメータの設定
+    # メルカリアカウント情報のstrongパラメータの設定
     private 
     def mercari_user_params
         params.require(:mercari_user).permit(:name, :email, :password)

@@ -1,5 +1,27 @@
 <%= link_to 'アカウントを作成', new_mercari_user_path  %>
 <h2>メルカリアカウント一覧</h2>
+
+<table class="table table-striped">
+<th width="20" height=20></th>
+<th width="100">（アイコン）</th>
+<th width="100">アカウント</th>
+<th width="100">状態</th>
+<th width="150">前回の出品日時</th>
+<th width="400">前に自動出品した商品名</th>
 <% @mercari_users.each do |mercari_user| %>
-    <p><%= link_to mercari_user.name, '#' %></p>
+  <tr>
+    <td height=100><%= check_box_tag "#{mercari_user.id}", true, false %></td>
+    <td>（画像）</td>
+    <td><%= link_to mercari_user.name, '#' %></td>
+    <td>
+        <% if mercari_user.in_progress? %>
+            出品中
+        <% else %>
+            停止中
+        <% end %>
+    </td>
+    <td>（前回の出品日時）</td>
+    <td>（前に自動出品した商品名）</td>
+  </tr>
 <% end %>
+</table>
