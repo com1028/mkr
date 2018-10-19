@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_132453) do
+ActiveRecord::Schema.define(version: 2018_10_19_042218) do
+
+  create_table "mercari_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "image_full_filepath"
+    t.string "email"
+    t.string "password"
+    t.string "name"
+    t.text "access_token"
+    t.text "global_access_token"
+    t.boolean "in_progress"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_mercari_users_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
