@@ -1,25 +1,25 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+・プルリクの作成について（最低限書くことなど）
+【必ず記載する項目】
+1. どのような処理を入れたのか
+2. どのような画面を作成したのか
 
-Things you may want to cover:
+1. ソースコードレビュー
+2. 処理確認：
+	1. ローカル上でstagingブランチに移動
+	2. リモートのstagingをローカルのstagingににpullしてくる
+		(git pull origin staging)
+	3. （上記の）最新のローカルstaginに新しいブランチをマージ
+		(git merge ブランチ名)
+	4. マージしたブランチをgithubにpush
+		(git push origin staging)
+	5. 他の2人が、最新のstagingブランチをpullしてきて、動作確認
+	6. if OK
+		ラベルをOKにする
+	  elsif Not OK
+		ラベルをNot OKにする
+	  end
 
-* Ruby version
+	※ ラベルが2つOKがついたら、masterにマージ（masterへのマージはGithub上でできる）
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# walto0903-devise_auth
