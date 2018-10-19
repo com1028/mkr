@@ -18,7 +18,7 @@ class MercariUser < ApplicationRecord
   private 
   require 'net/http'
     def getAccessToken()
-      uuid = "DUOSsquitUUIh"
+      uuid = SecureRandom.uuid.upcase.gsub('-', '')
       uri = URI.parse("https://api.mercari.jp/auth/create_token?uuid=#{uuid}")
 
       req = Net::HTTP::Get.new("#{uri.path}?#{uri.query}")
@@ -114,7 +114,7 @@ class MercariUser < ApplicationRecord
       else
         # NG
         return
-  end
+      end
 
     end
 
