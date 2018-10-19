@@ -20,6 +20,17 @@ class MercariUsersController < ApplicationController
         end
     end
 
+    def delete_selected_user
+        user_id_list = params['userlist']
+        user_id_list.each do |list|
+            delete_user = current_user.mercari_users.find_by(id:list)
+            delete_user.delete
+        end
+        flash[:success] = 'メルカリアカウントを削除しました'
+        # メルカリアカウント一覧へリダイレクト
+        redirect_to mercari_users_path
+    end
+
     # メルカリアカウント情報のstrongパラメータの設定
     private 
     def mercari_user_params

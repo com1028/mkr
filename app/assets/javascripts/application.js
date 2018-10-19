@@ -27,9 +27,30 @@ function account_delete_confirm(){
         count ++;
     });
     if(count == 0){
-        alert('削除するアカウントが選択してください');
-    }else{
-        alert(delete_mercari_account_id);
+        alert('削除するアカウントを選択してください');
+    }
+    else{
+        if(window.confirm('本当にチェックしたアカウントを削除しますか？（取り消しできません）')){
+            $.ajax({
+                type: 'POST',
+                url: '/delete_selected_mercari_account',
+                data: {
+                    'userlist': delete_mercari_account_id
+                }
+            })
+            // Ajaxリクエストが成功した時発動
+            .done( (data) => {
+
+            })
+            // Ajaxリクエストが失敗した時発動
+            .fail( (data) => {
+                alert('削除に失敗しました');
+            })
+            // Ajaxリクエストが成功・失敗どちらでも発動
+            .always( (data) => {
+
+            });;
+        }
     }
     
 }
