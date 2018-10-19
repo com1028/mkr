@@ -4,5 +4,6 @@ class MercariUsersController < ApplicationController
     end
 
     def new
+        @mercari_user = MercariUser.new
     end
 end
