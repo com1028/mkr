@@ -7,6 +7,9 @@ class MercariUsersController < ApplicationController
         @mercari_user = MercariUser.new
     end
 
+    def edit
+    end
+
     def create
         @mercari_user = current_user.mercari_users.new(mercari_user_params)
         @mercari_user.setMercariToken()

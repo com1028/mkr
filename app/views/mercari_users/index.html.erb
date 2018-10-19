@@ -14,7 +14,7 @@
   <tr>
     <td height=100><%= check_box_tag "#{mercari_user.id}", true, false %></td>
     <td>（画像）</td>
-    <td><%= link_to mercari_user.name, '#' %></td>
+    <td><%= link_to mercari_user.name, edit_mercari_user_path(mercari_user) %></td>
     <td>
         <% if mercari_user.in_progress? %>
             出品中
