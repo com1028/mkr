@@ -66,3 +66,10 @@ gem 'devise'
 
 # Bootstrapをインストール
 gem 'bootstrap-sass', '3.3.7'
+
+# binding.pryをインストール
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
+end
