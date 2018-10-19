@@ -1,5 +1,5 @@
 <%= link_to 'アカウントを作成', new_mercari_user_path  %>
 <h2>メルカリアカウント一覧</h2>
 <% @mercari_users.each do |mercari_user| %>
-    <%= link_to mercari_user.name, '#' %>
+    <p><%= link_to mercari_user.name, '#' %></p>
 <% end %>
