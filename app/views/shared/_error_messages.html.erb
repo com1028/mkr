@@ -4,9 +4,16 @@
       The form contains <%= pluralize(@mercari_user.errors.count, "error") %>.
     </div>
     <ul>
-    <% @mercari_user.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
+      <% 
+        @mercari_user.errors.delete('access_token')
+        @mercari_user.errors.delete('global_access_token')
+      %>
+      <% if @mercari_user.fill_in_form?() %>
+        <li>メルカリアカウントのログイン認証に失敗しました</li>
+      <% end %>
+      <% @mercari_user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
     </ul>
   </div>
 <% end %>

@@ -1,21 +1,29 @@
 class MercariUser < ApplicationRecord
   belongs_to :user, required: true
 
+  validates :name, presence: true
   validates :email, presence: true
   validates :password, presence: true
-  validates :name, presence: true
   validates :access_token, presence: true
   validates :global_access_token, presence: true
 
   def setMercariToken()
-    return if self.email.length() == 0 || self.password.length() == 0 || self.name.length() == 0
+    return if !fill_in_form?()
     self.access_token = getAccessToken()
     tmp_global_access_token = getGlobalAccessToken()
     self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
-    binding.pry
   end
 
+  def fill_in_form?
+    if self.email.length() == 0 || self.password.length() == 0 || self.name.length() == 0
+      return false
+    else
+      return true
+    end
+  end
+  
   private 
+
   require 'net/http'
     def getAccessToken()
       uuid = SecureRandom.uuid.upcase.gsub('-', '')
