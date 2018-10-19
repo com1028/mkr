@@ -14,4 +14,22 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+//= require jquery
+//= require jquery_ujs
 
+// メルカリアカウント削除の確認ダイアログを表示
+function account_delete_confirm(){
+    delete_mercari_account_id = [];
+    count = 0;
+    $("input[type='checkbox']").filter(":checked").map(function() {
+        id = $(this).attr("id");
+        delete_mercari_account_id.push(id);
+        count ++;
+    });
+    if(count == 0){
+        alert('削除するアカウントが選択してください');
+    }else{
+        alert(delete_mercari_account_id);
+    }
+    
+}

@@ -76,3 +76,6 @@ end
 
 # Validationのエラーメッセージを日本語に変更
 gem 'rails-i18n'
+
+# jQueryをインストール
+gem "jquery-rails"
