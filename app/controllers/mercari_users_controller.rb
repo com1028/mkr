@@ -1,0 +1,2 @@
+class MercariUsersController < ApplicationController
+end

@@ -7,6 +7,7 @@
         <% if current_user.nil? %>
           <li><%= link_to "ログイン", login_path %></li>
         <% else %>
+          <li><%= link_to "メルカリアカウント", mercari_users_path %></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
         <% end %>
       </ul>
