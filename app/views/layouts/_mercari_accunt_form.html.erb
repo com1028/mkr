@@ -1,0 +1,17 @@
+<%= form_for(@mercari_user) do |f| %>
+    <%= render 'shared/error_messages' %>
+
+    <%= f.label :表示名 %>
+    <%= f.text_field :name, class: 'form-control' %>
+
+    <%= f.label :メルカリのメールアドレス %>
+    <%= f.email_field :email, class: 'form-control' %>
+
+    <%= f.label :メルカリのパスワード %>
+    <%= f.password_field :password, class: 'form-control' %>
+
+    <%= f.label :password_confirmation, "メルカリのパスワード（確認用）" %>
+    <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+    <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

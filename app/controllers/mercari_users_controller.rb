@@ -8,6 +8,22 @@ class MercariUsersController < ApplicationController
     end
 
     def edit
+        @mercari_user = current_user.mercari_users.find_by(id:params[:id])
+    end
+
+    def update
+        after_delete_user = current_user.mercari_users.find_by(id:params[:id])
+        @mercari_user = current_user.mercari_users.new(mercari_user_params)
+        @mercari_user.setMercariToken()
+        if @mercari_user.save
+            # メルカリアカウントの作成に成功した場合
+            after_delete_user.delete
+            flash[:success] = "メルカリアカウントの更新が完了しました"
+            redirect_to mercari_users_path
+        else
+            # メルカリアカウントの作成に失敗した場合
+            render 'new'
+        end
     end
 
     def create

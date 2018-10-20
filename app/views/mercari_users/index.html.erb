@@ -6,7 +6,8 @@
 <table class="table table-striped">
 <th width="20" height=20></th>
 <th width="100">（アイコン）</th>
-<th width="100">アカウント</th>
+<th width="100">アカウント詳細</th>
+<th width="100">商品データ</th>
 <th width="100">状態</th>
 <th width="150">前回の出品日時</th>
 <th width="400">前に自動出品した商品名</th>
@@ -15,6 +16,7 @@
     <td height=100><%= check_box_tag "#{mercari_user.id}", true, false %></td>
     <td>（画像）</td>
     <td><%= link_to mercari_user.name, edit_mercari_user_path(mercari_user) %></td>
+    <td><%= link_to '商品一覧', '#' %></td>
     <td>
         <% if mercari_user.in_progress? %>
             出品中
