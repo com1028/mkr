@@ -2,8 +2,8 @@
     <%= render 'shared/error_messages' %>
 
     <% if @mercari_user.image_full_filepath? %>
-        <%# 画像を一度選択してうる場合 %>
-        <%= image_tag @mercari_user.image_full_filepath.url %>
+        <%# 画像を一度選択している場合 %>
+        <%= image_tag @mercari_user.image_full_filepath.url, :size => "300x300" %>
         <%= f.file_field :image_full_filepath %>
         <%= f.hidden_field :image_full_filepath_cache %>
         <br>
