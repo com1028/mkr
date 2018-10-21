@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class MercariUsersController < ApplicationController
     def index
         @mercari_users = current_user.mercari_users
@@ -44,6 +46,9 @@ class MercariUsersController < ApplicationController
         user_id_list.each do |list|
             delete_user = current_user.mercari_users.find_by(id:list)
             delete_user.delete
+            # 関連するメルカリアカウントのアイコン画像の削除
+            delete_dir = "#{Rails.root}/public/#{delete_user.user.class.to_s.underscore}/#{delete_user.user.id}/#{delete_user.class.to_s.underscore}/icon/#{delete_user.id}"
+            FileUtils.rm_r(delete_dir)
         end
         flash[:success] = 'メルカリアカウントを削除しました'
         # メルカリアカウント一覧へリダイレクト
