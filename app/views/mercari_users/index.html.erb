@@ -14,7 +14,7 @@
 <% @mercari_users.each do |mercari_user| %>
   <tr>
     <td height=100><%= check_box_tag "#{mercari_user.id}", true, false %></td>
-    <td><%= image_tag mercari_user.image_full_filepath.url %></td>
+    <td><%= image_tag mercari_user.image_full_filepath.thumb100.url %></td>
     <td><%= link_to mercari_user.name, edit_mercari_user_path(mercari_user) %></td>
     <td><%= link_to '商品一覧', '#' %></td>
     <td>
