@@ -7,6 +7,8 @@ class MercariUser < ApplicationRecord
   validates :access_token, presence: true
   validates :global_access_token, presence: true
 
+  mount_uploader :image_full_filepath, ImageUploader
+
   def setMercariToken()
     return if !fill_in_form?()
     self.access_token = getAccessToken()

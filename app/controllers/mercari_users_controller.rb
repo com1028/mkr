@@ -28,9 +28,12 @@ class MercariUsersController < ApplicationController
 
     def create
         @mercari_user = current_user.mercari_users.new(mercari_user_params)
-        @mercari_user.setMercariToken()
-        if @mercari_user.save
+        # @mercari_user.setMercariToken()
+         @mercari_user.access_token = "aaa"
+         @mercari_user.global_access_token = "bbb"
+         if @mercari_user.save
             # メルカリアカウントの作成に成功した場合
+            binding.pry
             flash[:success] = "メルカリアカウントの登録が完了しました"
             redirect_to mercari_users_path
         else
@@ -53,7 +56,7 @@ class MercariUsersController < ApplicationController
     # メルカリアカウント情報のstrongパラメータの設定
     private 
     def mercari_user_params
-        params.require(:mercari_user).permit(:name, :email, :password)
+        params.require(:mercari_user).permit(:name, :email, :password, :image_full_filepath)
     end
 
 end

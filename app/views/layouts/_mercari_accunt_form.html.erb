@@ -1,6 +1,9 @@
 <%= form_for(@mercari_user) do |f| %>
     <%= render 'shared/error_messages' %>
 
+    <%=f.label :画像 %>
+    <%= f.file_field :image_full_filepath %>
+
     <%= f.label :表示名 %>
     <%= f.text_field :name, class: 'form-control' %>
 
