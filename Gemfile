@@ -79,3 +79,6 @@ gem 'rails-i18n'
 
 # jQueryをインストール
 gem "jquery-rails"
+
+# 画像のアップロード
+gem 'carrierwave'
