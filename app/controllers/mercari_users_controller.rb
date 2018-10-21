@@ -16,7 +16,7 @@ class MercariUsersController < ApplicationController
         @mercari_user = current_user.mercari_users.new(mercari_user_params)
         @mercari_user.setMercariToken()
         if @mercari_user.save
-            # メルカリアカウントの作成に成功した場合
+            # メルカリアカウントの作成に成功した場合    
             after_delete_user.delete
             flash[:success] = "メルカリアカウントの更新が完了しました"
             redirect_to mercari_users_path

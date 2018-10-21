@@ -55,8 +55,11 @@ class MercariUser < ApplicationRecord
         return m[2]
       else
         # NG
-        # puts res.code
-        # puts res.body
+        puts "-------------------------------------------Access Token-------------------------------------"
+        puts res.code
+        puts res.body
+        puts "---------------------------------------------------------------------------------------------"
+
       end
 
     end
@@ -87,8 +90,11 @@ class MercariUser < ApplicationRecord
            return m[2]
          else
            # NG
-          #  puts res.code
-          #  puts res.body
+        # NG
+        puts "-------------------------------------------Global Access Token(正しくない方)-------------------------------------"
+        puts res.code
+        puts res.body
+        puts "----------------------------------------------------------------------------------------------------------------"
          end
 
     end
@@ -125,6 +131,10 @@ class MercariUser < ApplicationRecord
         return m[2]
       else
         # NG
+        puts "-------------------------------------------Global Access Token-------------------------------------"
+        puts res.code
+        puts res.body
+        puts "---------------------------------------------------------------------------------------------"        
         return
       end
 
