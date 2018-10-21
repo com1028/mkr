@@ -12,19 +12,16 @@ class MercariUsersController < ApplicationController
     end
 
     def update
-        # after_delete_user = current_user.mercari_users.find_by(id:params[:id])
-        # @mercari_user = current_user.mercari_users.new(mercari_user_params)
-        # # binding.pry
-        # # @mercari_user.setMercariToken()
-        # if @mercari_user.save
-        #     # メルカリアカウントの作成に成功した場合    
-        #     after_delete_user.delete
-        #     flash[:success] = "メルカリアカウントの更新が完了しました"
-        #     redirect_to mercari_users_path
-        # else
-        #     # メルカリアカウントの作成に失敗した場合
-        #     render 'new'
-        # end
+        @mercari_user = current_user.mercari_users.find_by(id:params[:id])
+        # binding.pry
+        if @mercari_user.update_attributes(mercari_user_params)
+            # メルカリアカウントの作成に成功した場合
+            flash[:success] = "メルカリアカウントの更新が完了しました"
+            redirect_to mercari_users_path
+        else
+            # メルカリアカウントの作成に失敗した場合
+            render 'new'
+        end
     end
 
     def create
@@ -56,5 +53,4 @@ class MercariUsersController < ApplicationController
     def mercari_user_params
         params.require(:mercari_user).permit(:name, :email, :password, :image_full_filepath)
     end
-
 end
