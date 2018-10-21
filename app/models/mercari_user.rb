@@ -6,6 +6,7 @@ class MercariUser < ApplicationRecord
   validates :password, presence: true
   validates :access_token, presence: true
   validates :global_access_token, presence: true
+  validates :image_full_filepath, presence: true
 
   mount_uploader :image_full_filepath, ImageUploader
 
@@ -14,6 +15,7 @@ class MercariUser < ApplicationRecord
     self.access_token = getAccessToken()
     tmp_global_access_token = getGlobalAccessToken()
     self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    # binding.pry
   end
 
   def fill_in_form?

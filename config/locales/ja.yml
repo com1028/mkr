@@ -4,6 +4,7 @@ ja:
     name: 表示名
     email: メールアドレス
     password: パスワード
+    image_full_filepath: 画像
   activerecord:
     errors:
       messages:
