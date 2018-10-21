@@ -82,3 +82,4 @@ gem "jquery-rails"
 
 # 画像のアップロード
 gem 'carrierwave'
+gem 'rmagick'
