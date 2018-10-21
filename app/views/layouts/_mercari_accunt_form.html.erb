@@ -1,8 +1,17 @@
 <%= form_for(@mercari_user) do |f| %>
     <%= render 'shared/error_messages' %>
 
-    <%=f.label :画像 %>
-    <%= f.file_field :image_full_filepath %>
+    <% if @mercari_user.image_full_filepath? %>
+        <%# 画像を一度選択してうる場合 %>
+        <%= image_tag @mercari_user.image_full_filepath.url %>
+        <%= f.file_field :image_full_filepath %>
+        <%= f.hidden_field :image_full_filepath_cache %>
+        <br>
+    <% else %>
+        <%= f.label :image_full_filepath %><br>
+        <%= f.file_field :image_full_filepath %>
+    <% end %>
+    
 
     <%= f.label :表示名 %>
     <%= f.text_field :name, class: 'form-control' %>
