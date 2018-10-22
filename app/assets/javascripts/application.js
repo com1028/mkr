@@ -17,6 +17,43 @@
 //= require jquery
 //= require jquery_ujs
 
+//  商品データの削除確認ダイアログを表示
+function item_delete_confirm(){
+    delete_item_id = [];
+    count = 0;
+    $("input[type='checkbox']").filter(":checked").map(function() {
+        id = $(this).attr("id");
+        delete_item_id.push(id);
+        count ++;
+    });
+    if(count == 0){
+        alert('削除するアカウントを選択してください');
+    }
+    else{
+        if(window.confirm('本当にチェックした商品を削除しますか？（取り消しできません）')){
+            $.ajax({
+                type: 'POST',
+                url: '/delete_selected_item',
+                data: {
+                    'itemlist': delete_item_id
+                }
+            })
+            // Ajaxリクエストが成功した時発動
+            .done( (data) => {
+
+            })
+            // Ajaxリクエストが失敗した時発動
+            .fail( (data) => {
+                alert('削除に失敗しました');
+            })
+            // Ajaxリクエストが成功・失敗どちらでも発動
+            .always( (data) => {
+
+            });;
+        }
+    }
+}
+
 // メルカリアカウント削除の確認ダイアログを表示
 function account_delete_confirm(){
     delete_mercari_account_id = [];

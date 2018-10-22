@@ -1,8 +1,8 @@
 <%= link_to '商品を追加', new_item_path(mercari_user_id: @mercari_user.id)  %>
 <h2>商品データ一覧</h2>
 
-<%= link_to 'メルカリからも商品を削除', '#', class: 'btn btn-danger' %>
-<%= link_to '商品を削除', '#', class: 'btn btn-warning' %>
+<%= link_to '商品を削除', 'javascript:item_delete_confirm()', class: 'btn btn-danger' %>
+<%= link_to 'メルカリから商品を削除', '#', class: 'btn btn-warning' %>
 <%= link_to '自動出品を開始', '#', class: 'btn btn-primary' %>
 <%= link_to '自動出品を停止', '#', class: 'btn btn-success' %>
 <p></p>
