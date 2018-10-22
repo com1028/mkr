@@ -1,0 +1,28 @@
+<%= form_for(@item) do |f| %>
+  <%= render 'shared/error_messages_items' %>
+  
+  <%= f.label :商品名 %>
+  <%= f.text_field :item_name, class: 'form-control' %>
+
+  <%= f.label :カテゴリ %>
+  <%= f.text_field :category, class: 'form-control' %>
+
+  <%= f.label :発送までの日数 %>
+  <%= f.text_field :shipping_duration, class: 'form-control' %>
+
+  <%= f.label :商品の状態 %>
+  <%= f.text_field :item_condition, class: 'form-control' %>
+
+  <%= f.label :金額 %>
+  <%= f.text_field :price, class: 'form-control' %>
+
+  <%= f.label :配送元の地域 %>
+  <%= f.text_field :shipping_from_area, class: 'form-control' %>
+
+  <%= f.label :内容 %>
+  <%= f.text_field :contents, class: 'form-control' %>
+
+  <%= f.label :再出品 %>
+  <%= f.text_field :auto_exhibit_flag, class: 'form-control' %>
+
+<% end %>

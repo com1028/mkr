@@ -3,4 +3,8 @@ class ItemsController < ApplicationController
         @mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
         @items = @mercari_user.items.all
     end
+
+    def new
+        @item = Item.new
+    end
 end
