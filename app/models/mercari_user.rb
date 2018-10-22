@@ -1,5 +1,6 @@
 class MercariUser < ApplicationRecord
   belongs_to :user, required: true
+  has_many :items
 
   validates :name, presence: true
   validates :email, presence: true
