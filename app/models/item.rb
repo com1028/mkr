@@ -13,6 +13,17 @@ class Item < ApplicationRecord
   validates :contents, length: { maximum: 1000 }
   validates :auto_exhibit_flag, presence: true
 
+  def getItemCondition
+    options = ["新品，未使用","未使用に近い","目立った傷や汚れなし",
+      "やや傷や汚れあり","傷や汚れあり","全体的に状態が悪い"]
+    return options[self.item_condition-1]
+  end
+
+  def getShippingDuration
+    options = ["1〜2日で発送","2〜3日で発送","4〜7日で発送"]
+    return options[self.shipping_duration-1]
+  end
+
   def getShippingFromArea
     options = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県",
 			"埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県",

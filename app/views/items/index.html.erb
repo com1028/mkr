@@ -1,18 +1,27 @@
+<%= link_to '商品を追加', '#'  %>
 <h2>商品データ一覧</h2>
+
+<%= link_to 'メルカリからも商品を削除', '#', class: 'btn btn-danger' %>
+<%= link_to '商品を削除', '#', class: 'btn btn-warning' %>
+<%= link_to '自動出品を開始', '#', class: 'btn btn-primary' %>
+<%= link_to '自動出品を停止', '#', class: 'btn btn-success' %>
+<p></p>
 <table class="table table-striped">
-<th width="20" height=20></th>
+<th width="100" height=20></th>
 <th width="120">画像1</th>
 <th width="120">画像2</th>
 <th width="120">画像3</th>
 <th width="120">画像4</th>
 <th width="500">商品名</th>
 <th width="200">カテゴリ</th>
-<th width="300">発送までの日数</th>
-<th width="200">商品の状態</th>
+<th width="400">発送までの日数</th>
+<th width="500">商品の状態</th>
 <th width="250">配送元の地域</th>
 <th width="300">金額</th>
 <th width="500">内容</th>
 <th width="200">自動出品</th>
+<th width="100"></th>
+
 <% @items.each do |item| %>
     <tr>
         <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
@@ -22,12 +31,13 @@
         <td>(画像4)</td>
         <td><%= link_to item.item_name, '#' %></td>
         <td><%= link_to item.category, '#' %></td>
-        <td><%= link_to item.shipping_duration, '#' %></td>
-        <td><%= link_to item.item_condition, '#' %></td>
+        <td><%= item.getShippingDuration %></td>
+        <td><%= item.getItemCondition %></td>
         <td><%= item.getShippingFromArea %></td>
         <td><%= link_to item.price, '#' %></td>
         <td><%= link_to item.contents, '#' %></td>
         <td><%= item.getAutoExhibitFlag %></td>
+        <td><%= link_to '更新', '#', class: 'btn btn-info' %></td>
     </tr>
 <% end %>
 </table>
