@@ -10,6 +10,6 @@ class Item < ApplicationRecord
    # メルカリで出品できる範囲が、1,000円から999,999円の範囲？
   validates :price, presence: true, inclusion: { in: 1000..999999 }
   validates :shipping_from_area, presence: true
-  validates :contents, presence: true, length: { maximum: 1000 }
+  validates :contents, length: { maximum: 1000 }
   validates :auto_exhibit_flag, presence: true
 end

@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_153610) do
+ActiveRecord::Schema.define(version: 2018_10_22_170224) do
 
   create_table "items", force: :cascade do |t|
-    t.integer "user_id_id"
-    t.integer "mercari_user_id_id"
+    t.integer "user_id"
+    t.integer "mercari_user_id"
     t.string "image1"
     t.string "image2"
     t.string "image3"
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 2018_10_22_153610) do
     t.integer "price"
     t.integer "shipping_from_area"
     t.text "contents"
-    t.boolean "auto_exhibit_flag"
+    t.boolean "auto_exhibit_flag", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["mercari_user_id_id"], name: "index_items_on_mercari_user_id_id"
-    t.index ["user_id_id"], name: "index_items_on_user_id_id"
+    t.index ["mercari_user_id"], name: "index_items_on_mercari_user_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "mercari_users", force: :cascade do |t|
