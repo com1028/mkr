@@ -20,9 +20,9 @@
   <%= f.text_field :shipping_from_area, class: 'form-control' %>
 
   <%= f.label :内容 %>
-  <%= f.text_field :contents, class: 'form-control' %>
+  <%= f.text_area :contents, class: 'form-control' %>
 
   <%= f.label :再出品 %>
-  <%= f.text_field :auto_exhibit_flag, class: 'form-control' %>
+  <%= f.select :auto_exhibit_flag, [["する", true], ["しない", false]], class: 'form-control' %>
 
 <% end %>
