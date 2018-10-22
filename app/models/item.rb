@@ -5,11 +5,11 @@ class Item < ApplicationRecord
   validates :image1, presence: true
   validates :item_name, presence: true, length: { maximum: 40 }
   validates :category, presence: true
-  validates :shipping_duration, presence: true
-  validates :item_condition, presence: true
+  validates :shipping_duration, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_DURATION_OPTIONS.length }
+  validates :item_condition, presence: true, inclusion: { in: 1..ItemConstant::ITEM_CONDITION_OPTIONS.length }
    # メルカリで出品できる範囲が、300円から9,999,999円の範囲
   validates :price, presence: true, inclusion: { in: 300..9999999 }
-  validates :shipping_from_area, presence: true, inclusion: { in: 1..47 }
+  validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
   validates :contents, length: { maximum: 1000 }
 
   def getItemCondition
