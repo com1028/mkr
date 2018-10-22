@@ -7,8 +7,8 @@ class Item < ApplicationRecord
   validates :category, presence: true
   validates :shipping_duration, presence: true
   validates :item_condition, presence: true
-   # メルカリで出品できる範囲が、1,000円から999,999円の範囲？
-  validates :price, presence: true, inclusion: { in: 1000..999999 }
+   # メルカリで出品できる範囲が、300円から9,999,999円の範囲
+  validates :price, presence: true, inclusion: { in: 300..9999999 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..47 }
   validates :contents, length: { maximum: 1000 }
 
