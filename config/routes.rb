@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/delete_selected_mercari_account', to: 'mercari_users#delete_selected_user'
   devise_for :users
   resources :mercari_users
+  resources :items
 end
