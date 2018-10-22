@@ -1,1 +1,33 @@
 <h2>商品データ一覧</h2>
+<table class="table table-striped">
+<th width="20" height=20></th>
+<th width="120">画像1</th>
+<th width="120">画像2</th>
+<th width="120">画像3</th>
+<th width="120">画像4</th>
+<th width="500">商品名</th>
+<th width="200">カテゴリ</th>
+<th width="300">発送までの日数</th>
+<th width="200">商品の状態</th>
+<th width="250">配送元の地域</th>
+<th width="300">金額</th>
+<th width="500">内容</th>
+<th width="200">自動出品</th>
+<% @items.each do |item| %>
+    <tr>
+        <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
+        <td>(画像1)</td>
+        <td>(画像2)</td>
+        <td>(画像3)</td>
+        <td>(画像4)</td>
+        <td><%= link_to item.item_name, '#' %></td>
+        <td><%= link_to item.category, '#' %></td>
+        <td><%= link_to item.shipping_duration, '#' %></td>
+        <td><%= link_to item.item_condition, '#' %></td>
+        <td><%= item.getShippingFromArea %></td>
+        <td><%= link_to item.price, '#' %></td>
+        <td><%= link_to item.contents, '#' %></td>
+        <td><%= item.getAutoExhibitFlag %></td>
+    </tr>
+<% end %>
+</table>
