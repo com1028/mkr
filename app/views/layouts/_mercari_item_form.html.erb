@@ -8,21 +8,78 @@
   <%= f.text_field :category, class: 'form-control' %>
 
   <%= f.label :発送までの日数 %>
-  <%= f.text_field :shipping_duration, class: 'form-control' %>
+  <%= f.select :shipping_duration, [
+                                  ["#{ItemConstant::SHIPPING_DURATION_OPTIONS[0]}", 1], 
+                                  ["#{ItemConstant::SHIPPING_DURATION_OPTIONS[1]}", 2],
+                                  ["#{ItemConstant::SHIPPING_DURATION_OPTIONS[2]}", 3]
+                                ],class: 'form-control' %>
 
   <%= f.label :商品の状態 %>
-  <%= f.text_field :item_condition, class: 'form-control' %>
-
+  <%= f.select :item_condition, [
+                                  ["#{ItemConstant::ITEM_CONDITION_OPTIONS[0]}", 1], 
+                                  ["#{ItemConstant::ITEM_CONDITION_OPTIONS[1]}", 2],
+                                  ["#{ItemConstant::ITEM_CONDITION_OPTIONS[2]}", 3],
+                                  ["#{ItemConstant::ITEM_CONDITION_OPTIONS[3]}", 4],
+                                  ["#{ItemConstant::ITEM_CONDITION_OPTIONS[4]}", 5]
+                                ],class: 'form-control' %>
   <%= f.label :金額 %>
   <%= f.text_field :price, class: 'form-control' %>
 
   <%= f.label :配送元の地域 %>
-  <%= f.text_field :shipping_from_area, class: 'form-control' %>
+  <%= f.select :shipping_from_area, [
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[0]}", 1], 
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[1]}", 2],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[2]}", 3],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[3]}", 4],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[4]}", 5],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[5]}", 6],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[6]}", 7],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[7]}", 8],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[8]}", 9],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[9]}", 10],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[10]}", 11],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[11]}", 12],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[12]}", 13],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[13]}", 14],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[14]}", 15],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[15]}", 16],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[16]}", 17],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[17]}", 18],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[18]}", 19],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[19]}", 20],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[20]}", 21],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[21]}", 22],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[22]}", 23],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[23]}", 24],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[24]}", 25],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[25]}", 26],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[26]}", 27],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[27]}", 28],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[28]}", 29],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[29]}", 30],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[30]}", 31],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[31]}", 32],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[32]}", 33],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[33]}", 34],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[34]}", 35],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[35]}", 36],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[36]}", 37],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[37]}", 38],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[38]}", 39],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[39]}", 40],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[40]}", 41],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[41]}", 42],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[42]}", 43],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[43]}", 44],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[44]}", 45],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[45]}", 46],
+                                  ["#{ItemConstant::SHIPPING_FROM_AREA_OPTIONS[46]}", 47]                    
+                                ],class: 'form-control' %>
 
   <%= f.label :内容 %>
   <%= f.text_area :contents, class: 'form-control' %>
 
   <%= f.label :再出品 %>
-  <%= f.select :auto_exhibit_flag, [["する", true], ["しない", false]], class: 'form-control' %>
+  <%= f.select :auto_exhibit_flag, [["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]}", true], ["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]}", false]], class: 'form-control' %>
 
 <% end %>
