@@ -11,7 +11,6 @@ class Item < ApplicationRecord
   validates :price, presence: true, inclusion: { in: 1000..999999 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..47 }
   validates :contents, length: { maximum: 1000 }
-  validates :auto_exhibit_flag, presence: true
 
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS

@@ -1,4 +1,4 @@
-<%= link_to '商品を追加', new_item_path  %>
+<%= link_to '商品を追加', new_item_path(mercari_user_id: @mercari_user.id)  %>
 <h2>商品データ一覧</h2>
 
 <%= link_to 'メルカリからも商品を削除', '#', class: 'btn btn-danger' %>

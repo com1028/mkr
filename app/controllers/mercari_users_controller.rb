@@ -31,7 +31,7 @@ class MercariUsersController < ApplicationController
         # @mercari_user.setMercariToken()
         @mercari_user.access_token = "aaa"
         @mercari_user.global_access_token = "bbb"
-         if @mercari_user.save
+        if @mercari_user.save
             # メルカリアカウントの作成に成功した場合
             flash[:success] = "メルカリアカウントの登録が完了しました"
             redirect_to mercari_users_path

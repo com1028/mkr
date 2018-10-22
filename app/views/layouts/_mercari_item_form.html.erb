@@ -1,5 +1,7 @@
 <%= form_for(@item) do |f| %>
   <%= render 'shared/error_messages_items' %>
+
+  <%= f.hidden_field :mercari_user_id, :value => @mercari_user.id %>
   
   <%= f.label :商品名 %>
   <%= f.text_field :item_name, class: 'form-control' %>
@@ -81,5 +83,8 @@
 
   <%= f.label :再出品 %>
   <%= f.select :auto_exhibit_flag, [["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]}", true], ["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]}", false]], class: 'form-control' %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+
 
 <% end %>
