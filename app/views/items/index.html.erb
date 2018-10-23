@@ -23,15 +23,15 @@
     <th width="100"></th>
 
     <% @items.each do |item| %>
-        <tr>
+        <tr id='item<%= item.id %>'>
             <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
-            <td>(画像1)</td>
-            <td>(画像2)</td>
-            <td>(画像3)</td>
-            <td>(画像4)</td>
-            <td><%= item.item_name %></td>
-            <td><%= item.category %></td>
-            <td>
+            <td class='image1'>(画像1)</td>
+            <td class='image2'>(画像2)</td>
+            <td class='image3'>(画像3)</td>
+            <td class='image4'>(画像4)</td>
+            <td class='item_name'><%= item.item_name %></td>
+            <td class='category'><%= item.category %></td>
+            <td class='shipping_duration'>
                 <%= 
                     select_tag '#', options_for_select(
                     [[ItemConstant::SHIPPING_DURATION_OPTIONS[0],"1"], 
@@ -40,7 +40,7 @@
                     :selected=>item.shipping_duration)
                 %>
             </td>
-            <td>
+            <td class='item_condition'>
                 <%= 
                     select_tag '#', options_for_select(
                     [[ItemConstant::ITEM_CONDITION_OPTIONS[0],"1"], 
@@ -51,7 +51,7 @@
                     :selected=>item.item_condition)
                 %>
             </td>
-            <td>
+            <td class='shipping_from_area'>
                 <%= 
                     select_tag '#', options_for_select(
                     [[ItemConstant::SHIPPING_FROM_AREA_OPTIONS[0],"1"],
@@ -103,9 +103,10 @@
                     [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[46],"47"]],
                     :selected=>item.shipping_from_area)
                 %>
-            </td>        <td><%= item.price %></td>
-            <td><%= item.contents %></td>
-            <td>
+            </td>        
+            <td class='price'><%= item.price %></td>
+            <td class='contents'><%= item.contents %></td>
+            <td class='auto_exhibit_flag'>
                 <%= 
                     select_tag '#', options_for_select(
                     [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],"1"], 

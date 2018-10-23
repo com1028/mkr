@@ -19,7 +19,22 @@
 
 // 「商品一覧ページ」：「更新」ボタンを押下時の処理
 function click_update_item(item_id){
-    alert('id:' + item_id);
+    item_tr = $('#item' + item_id);
+    
+    image1 = item_tr.find('.image1').html();
+    image2 = item_tr.find('.image2').html();
+    image3 = item_tr.find('.image3').html();
+    image4 = item_tr.find('.image4').html();
+    item_name = item_tr.find('.item_name').html();
+    category = item_tr.find('.category').html();
+    shipping_duration = item_tr.find('.shipping_duration').find('select').val();
+    item_condition = item_tr.find('.item_condition').find('select').val();
+    shipping_from_area = item_tr.find('.shipping_from_area').find('select').val();
+    price = item_tr.find('.price').html();
+    contents = item_tr.find('.contents').html();
+    auto_exhibit_flag = item_tr.find('.auto_exhibit_flag').find('select').val();
+
+    console.log(shipping_duration);
 }
 
 //  商品データの削除確認ダイアログを表示
