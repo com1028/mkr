@@ -17,6 +17,11 @@
 //= require jquery
 //= require jquery_ujs
 
+// 「商品一覧ページ」：「更新」ボタンを押下時の処理
+function click_update_item(item_id){
+    alert('id:' + item_id);
+}
+
 //  商品データの削除確認ダイアログを表示
 function item_delete_confirm(){
     delete_item_id = [];
