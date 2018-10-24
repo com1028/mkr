@@ -34,7 +34,41 @@ function click_update_item(item_id){
     contents = item_tr.find('.contents').html();
     auto_exhibit_flag = item_tr.find('.auto_exhibit_flag').find('select').val();
 
-    console.log(shipping_duration);
+    update_data = {
+        'image1' : image1,
+        'image2' : image2,
+        'image3' : image3,
+        'image4' : image4,
+        'item_name' : item_name,
+        'category' : category,
+        'shipping_duration' : shipping_duration,
+        'item_condition' : item_condition,
+        'shipping_from_area' : shipping_from_area,
+        'price' : price,
+        'contents' : contents,
+        'auto_exhibit_flag' : auto_exhibit_flag
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/update_selected_item',
+        data: {
+            'data': update_data
+        }
+    })
+    // Ajaxリクエストが成功した時発動
+    .done( (data) => {
+
+    })
+    // Ajaxリクエストが失敗した時発動
+    .fail( (data) => {
+        alert('削除に失敗しました');
+    })
+    // Ajaxリクエストが成功・失敗どちらでも発動
+    .always( (data) => {
+
+    });;
+
 }
 
 //  商品データの削除確認ダイアログを表示

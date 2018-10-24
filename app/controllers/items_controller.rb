@@ -24,6 +24,10 @@ class ItemsController < ApplicationController
         end
     end
 
+    def update_selected_item
+        binding.pry
+    end
+
     def delete_selected_item
         @mercari_user = nil
         item_id_list = params['itemlist']
@@ -45,7 +49,8 @@ class ItemsController < ApplicationController
 
     private
     def item_params
-        params.require(:item).permit(:mercari_user_id, :image1, :image2, :image3, :image4, :item_name, :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag)
+        params.require(:item).permit(:mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
+            :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag)
     end
 
 end
