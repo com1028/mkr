@@ -10,7 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_132453) do
+ActiveRecord::Schema.define(version: 2018_10_22_170224) do
+
+  create_table "items", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "mercari_user_id"
+    t.string "image1"
+    t.string "image2"
+    t.string "image3"
+    t.string "image4"
+    t.string "item_name"
+    t.integer "category"
+    t.integer "shipping_duration"
+    t.integer "item_condition"
+    t.integer "price"
+    t.integer "shipping_from_area"
+    t.text "contents"
+    t.boolean "auto_exhibit_flag", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mercari_user_id"], name: "index_items_on_mercari_user_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "mercari_users", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "image_full_filepath"
+    t.string "email", null: false
+    t.string "password", null: false
+    t.string "name", null: false
+    t.text "access_token", null: false
+    t.text "global_access_token", null: false
+    t.boolean "in_progress", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_mercari_users_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

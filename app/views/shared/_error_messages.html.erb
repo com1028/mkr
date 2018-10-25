@@ -1,0 +1,23 @@
+<% if @mercari_user.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      <% 
+        @mercari_user.errors.delete('access_token')
+        @mercari_user.errors.delete('global_access_token')
+      %>
+      <% if @mercari_user.errors.count != 0 %>
+        <%= @mercari_user.errors.count %>つの入力ミスがあります
+      <% else %>
+        入力ミスがあります
+      <% end %>
+    </div>
+    <ul>
+      <% if @mercari_user.fill_in_form?() %>
+        <li>メルカリアカウントのログイン認証に失敗しました</li>
+      <% end %>
+      <% @mercari_user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

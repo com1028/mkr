@@ -66,3 +66,20 @@ gem 'devise'
 
 # Bootstrapをインストール
 gem 'bootstrap-sass', '3.3.7'
+
+# binding.pryをインストール
+group :development, :test do
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
+end
+
+# Validationのエラーメッセージを日本語に変更
+gem 'rails-i18n'
+
+# jQueryをインストール
+gem "jquery-rails"
+
+# 画像のアップロード
+gem 'carrierwave'
+gem 'rmagick'
