@@ -25,7 +25,12 @@ class ItemsController < ApplicationController
     end
 
     def update_selected_item
-        binding.pry
+        @item = Item.find_by(id: item_params['id'])
+        if @item.update_attributes(item_params)
+            flash[:success] = "情報を編集しました"
+            redirect_to items_path(mercari_user_id: @item.mercari_user.id)
+        else
+        end
     end
 
     def delete_selected_item
@@ -49,7 +54,7 @@ class ItemsController < ApplicationController
 
     private
     def item_params
-        params.require(:item).permit(:mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
+        params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
             :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag)
     end
 

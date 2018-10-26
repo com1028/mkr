@@ -35,6 +35,7 @@ function click_update_item(item_id){
     auto_exhibit_flag = item_tr.find('.auto_exhibit_flag').find('select').val();
 
     update_data = {
+        'id' : item_id,
         'image1' : image1,
         'image2' : image2,
         'image3' : image3,
@@ -53,7 +54,7 @@ function click_update_item(item_id){
         type: 'POST',
         url: '/update_selected_item',
         data: {
-            'data': update_data
+            'item': update_data
         }
     })
     // Ajaxリクエストが成功した時発動

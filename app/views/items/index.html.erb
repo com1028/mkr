@@ -109,9 +109,9 @@
             <td class='auto_exhibit_flag'>
                 <%= 
                     select_tag '#', options_for_select(
-                    [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],"1"], 
-                    [ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1],"2"]],
-                    :selected=>item.item_condition)
+                    [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],true], 
+                    [ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1],false]],
+                    :selected=>item.auto_exhibit_flag)
                 %>
             </td>
             <td><%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %></td>

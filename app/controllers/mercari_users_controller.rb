@@ -3,7 +3,6 @@ require 'fileutils'
 class MercariUsersController < ApplicationController
     def index
         @mercari_users = current_user.mercari_users
-        binding.pry
     end
 
     def new
@@ -16,7 +15,6 @@ class MercariUsersController < ApplicationController
 
     def update
         @mercari_user = current_user.mercari_users.find_by(id:params[:id])
-        # binding.pry
         if @mercari_user.update_attributes(mercari_user_params)
             # メルカリアカウントの作成に成功した場合
             flash[:success] = "メルカリアカウントの更新が完了しました"
