@@ -63,7 +63,7 @@ function click_update_item(item_id){
     })
     // Ajaxリクエストが失敗した時発動
     .fail( (data) => {
-        alert('削除に失敗しました');
+        alert('商品情報の編集に失敗しました');
     })
     // Ajaxリクエストが成功・失敗どちらでも発動
     .always( (data) => {

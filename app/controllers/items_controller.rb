@@ -30,6 +30,8 @@ class ItemsController < ApplicationController
             flash[:success] = "情報を編集しました"
             redirect_to items_path(mercari_user_id: @item.mercari_user.id)
         else
+            flash[:danger] = @item.errors.full_messages
+            redirect_to items_path(mercari_user_id: @item.mercari_user.id)
         end
     end
 
