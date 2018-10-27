@@ -9,6 +9,24 @@ class ItemsController < ApplicationController
         @item = Item.new
     end
 
+    def edit
+        @item = Item.find_by(id: params['id'])
+        @mercari_user = @item.mercari_user
+    end
+
+    def update
+        @mercari_user = current_user.mercari_users.find_by(id: item_params['mercari_user_id'])
+        @item = @mercari_user.items.find_by(id: params['id'])
+        if @item.update_attributes(item_params)
+            # 商品データの編集に成功した場合
+            flash[:success] = "商品を編集しました"
+            redirect_to items_path(mercari_user_id: @mercari_user.id)
+        else
+            # 商品データの編集に失敗した場合
+            render 'new'
+        end
+    end
+
     def create
         @mercari_user = current_user.mercari_users.find_by(id: item_params['mercari_user_id'])
         @item = @mercari_user.items.new(item_params)

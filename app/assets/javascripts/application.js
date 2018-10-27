@@ -74,7 +74,7 @@ function item_delete_confirm(){
         count ++;
     });
     if(count == 0){
-        alert('削除するアカウントを選択してください');
+        alert('削除する商品を選択してください');
     }
     else{
         if(window.confirm('本当にチェックした商品を削除しますか？（取り消しできません）')){
