@@ -13,7 +13,6 @@ class ItemsController < ApplicationController
         @mercari_user = current_user.mercari_users.find_by(id: item_params['mercari_user_id'])
         @item = @mercari_user.items.new(item_params)
         @item.user_id = current_user.id
-        @item.image1 = "ダミーデータ"
         if @item.save
             # 商品データの作成に成功した場合
             flash[:success] = "商品を追加しました"
@@ -57,7 +56,8 @@ class ItemsController < ApplicationController
     private
     def item_params
         params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
-            :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag)
+            :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag, 
+            :image1_cache, :image2_cache, :image3_cache, :image4_cache)
     end
 
 end

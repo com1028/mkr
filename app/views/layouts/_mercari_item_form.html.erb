@@ -2,6 +2,50 @@
   <%= render 'shared/error_messages_items' %>
 
   <%= f.hidden_field :mercari_user_id, :value => @mercari_user.id %>
+
+  <% if @item.image1? %>
+    <%# 画像を一度選択している場合 %>
+    <%= image_tag @item.image1.url, :size => "100x100" %>
+    <%= f.file_field :image1 %>
+    <%= f.hidden_field :image1_cache %>
+    <br>
+  <% else %>
+    <%= f.label :image1 %><br>
+    <%= f.file_field :image1 %>
+  <% end %>
+
+  <% if @item.image2? %>
+    <%# 画像を一度選択している場合 %>
+    <%= image_tag @item.image2.url, :size => "100x100" %>
+    <%= f.file_field :image2 %>
+    <%= f.hidden_field :image2_cache %>
+    <br>
+  <% else %>
+    <%= f.label :image2 %><br>
+    <%= f.file_field :image2 %>
+  <% end %>
+
+  <% if @item.image3? %>
+    <%# 画像を一度選択している場合 %>
+    <%= image_tag @item.image3.url, :size => "100x100" %>
+    <%= f.file_field :image3 %>
+    <%= f.hidden_field :image3_cache %>
+    <br>
+  <% else %>
+    <%= f.label :image3 %><br>
+    <%= f.file_field :image3 %>
+  <% end %>
+
+  <% if @item.image4? %>
+    <%# 画像を一度選択している場合 %>
+    <%= image_tag @item.image4.url, :size => "100x100" %>
+    <%= f.file_field :image4 %>
+    <%= f.hidden_field :image4_cache %>
+    <br>
+  <% else %>
+    <%= f.label :image4 %><br>
+    <%= f.file_field :image4 %>
+  <% end %>
   
   <%= f.label :商品名 %>
   <%= f.text_field :item_name, class: 'form-control' %>

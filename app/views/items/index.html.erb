@@ -25,10 +25,30 @@
     <% @items.each do |item| %>
         <tr id='item<%= item.id %>'>
             <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
-            <td class='image1'>(画像1)</td>
-            <td class='image2'>(画像2)</td>
-            <td class='image3'>(画像3)</td>
-            <td class='image4'>(画像4)</td>
+            <% if item.image1.present? %>
+                <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
+            <% else %>
+                <td class='image1'>(No image)</td>
+            <% end %>
+
+            <% if item.image2.present? %>
+                <td class='image2'><%= image_tag item.image2.thumb100.url %></td>
+            <% else %>
+                <td class='image2'>(No image)</td>
+            <% end %>
+
+            <% if item.image3.present?%>
+                <td class='image3'><%= image_tag item.image3.thumb100.url %></td>
+            <% else %>
+                <td class='image3'>(No image)</td>
+            <% end %>
+
+            <% if item.image4.present?%>
+                <td class='image4'><%= image_tag item.image4.thumb100.url %></td>
+            <% else %>
+                <td class='image4'>(No image)</td>
+            <% end %>
+
             <td class='item_name'><%= item.item_name %></td>
             <td class='category'><%= item.category %></td>
             <td class='shipping_duration'>
