@@ -12,14 +12,14 @@
     <th width="120">画像2</th>
     <th width="120">画像3</th>
     <th width="120">画像4</th>
-    <th width="500">商品名</th>
+    <th width="3000">商品名</th>
     <th width="200">カテゴリ</th>
-    <th width="500">発送までの日数</th>
-    <th width="600">商品の状態</th>
-    <th width="450">配送元の地域</th>
-    <th width="600">金額</th>
+    <th width="2500">発送までの日数</th>
+    <th width="2000">商品の状態</th>
+    <th width="2000">配送元の地域</th>
+    <th width="2000">金額</th>
     <th width="500">内容</th>
-    <th width="350">自動出品</th>
+    <th width="1500">自動出品</th>
     <th width="100"></th>
 
     <% @items.each do |item| %>
@@ -49,7 +49,7 @@
                 <td class='image4'>(No image)</td>
             <% end %>
 
-            <td class='item_name'><%= item.item_name %></td>
+            <td class='item_name'><input type='text' value='<%= item.item_name %>'></td>
             <td class='category'><%= item.category %></td>
             <td class='shipping_duration'>
                 <%= 

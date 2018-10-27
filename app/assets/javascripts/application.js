@@ -21,7 +21,7 @@
 function click_update_item(item_id){
     item_tr = $('#item' + item_id);
     
-    item_name = item_tr.find('.item_name').html();
+    item_name = item_tr.find('.item_name').children().val();
     category = item_tr.find('.category').html();
     shipping_duration = item_tr.find('.shipping_duration').find('select').val();
     item_condition = item_tr.find('.item_condition').find('select').val();
