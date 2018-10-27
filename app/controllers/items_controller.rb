@@ -44,9 +44,8 @@ class ItemsController < ApplicationController
             end
             delete_item.delete
             # 商品の画像を削除
-            # （サンプル）
-            # delete_dir = "#{Rails.root}/public/#{delete_user.user.class.to_s.underscore}/#{delete_user.user.id}/#{delete_user.class.to_s.underscore}/icon/#{delete_user.id}"
-            # FileUtils.rm_r(delete_dir)
+            delete_dir = "#{Rails.root}/public/#{delete_item.user.class.to_s.underscore}/#{delete_item.user.id}/#{delete_item.mercari_user.class.to_s.underscore}/item/#{delete_item.id}"
+            FileUtils.rm_r(delete_dir)
         end
         flash[:success] = '商品を削除しました'
         # 商品一覧へリダイレクト
