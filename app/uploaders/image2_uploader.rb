@@ -10,7 +10,7 @@ class Image2Uploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.mercari_user.class.to_s.underscore}/item/#{model.id}"
+    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.mercari_user.class.to_s.underscore}/icon/#{model.mercari_user.id}/item/#{model.id}"
   end
 
   # リサイズしたり画像形式を変更するのに必要
