@@ -129,6 +129,5 @@
   <%= f.select :auto_exhibit_flag, [["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]}", true], ["#{ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]}", false]], class: 'form-control' %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
-
-
+  
 <% end %>

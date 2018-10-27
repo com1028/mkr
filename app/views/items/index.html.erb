@@ -17,7 +17,7 @@
     <th width="500">発送までの日数</th>
     <th width="600">商品の状態</th>
     <th width="450">配送元の地域</th>
-    <th width="300">金額</th>
+    <th width="600">金額</th>
     <th width="500">内容</th>
     <th width="350">自動出品</th>
     <th width="100"></th>
@@ -124,7 +124,9 @@
                     :selected=>item.shipping_from_area)
                 %>
             </td>        
-            <td class='price'><%= item.price %></td>
+            <td class='price'>
+                <div style="display:inline-flex"><input type='text' value='<%= item.price %>'>円</div>
+            </td>
             <td class='contents'><%= item.contents %></td>
             <td class='auto_exhibit_flag'>
                 <%= 
