@@ -17,6 +17,9 @@
   <% if @item.image2? %>
     <%# 画像を一度選択している場合 %>
     <%= image_tag @item.image2.url, :size => "100x100" %>
+      <label>
+        <%= f.check_box :remove_image2 %>削除
+      </label>
     <%= f.file_field :image2 %>
     <%= f.hidden_field :image2_cache %>
     <br>
@@ -28,6 +31,9 @@
   <% if @item.image3? %>
     <%# 画像を一度選択している場合 %>
     <%= image_tag @item.image3.url, :size => "100x100" %>
+      <label>
+        <%= f.check_box :remove_image3 %>削除
+      </label>
     <%= f.file_field :image3 %>
     <%= f.hidden_field :image3_cache %>
     <br>
@@ -39,6 +45,9 @@
   <% if @item.image4? %>
     <%# 画像を一度選択している場合 %>
     <%= image_tag @item.image4.url, :size => "100x100" %>
+      <label>
+        <%= f.check_box :remove_image4 %>削除
+      </label>
     <%= f.file_field :image4 %>
     <%= f.hidden_field :image4_cache %>
     <br>

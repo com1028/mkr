@@ -74,7 +74,7 @@ class ItemsController < ApplicationController
     def item_params
         params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
             :category, :shipping_duration, :item_condition, :price, :shipping_from_area, :contents, :auto_exhibit_flag, 
-            :image1_cache, :image2_cache, :image3_cache, :image4_cache)
+            :image1_cache, :image2_cache, :image3_cache, :image4_cache, :remove_image2, :remove_image3, :remove_image4)
     end
 
 end
