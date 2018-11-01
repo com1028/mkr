@@ -12,6 +12,11 @@ class Item < ApplicationRecord
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
   validates :contents, length: { maximum: 1000 }
 
+  mount_uploader :image1, Image1Uploader
+  mount_uploader :image2, Image2Uploader
+  mount_uploader :image3, Image3Uploader
+  mount_uploader :image4, Image4Uploader
+
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
     return options[self.item_condition-1]

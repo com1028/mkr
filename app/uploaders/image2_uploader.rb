@@ -1,8 +1,8 @@
-class ImageUploader < CarrierWave::Uploader::Base
+class Image2Uploader < CarrierWave::Uploader::Base
   storage :file
 
   def store_dir
-    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.class.to_s.underscore}/icon/#{model.id}"
+    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.mercari_user.class.to_s.underscore}/icon/#{model.mercari_user.id}/item/#{model.id}"
   end
 
   # リサイズしたり画像形式を変更するのに必要
@@ -39,5 +39,4 @@ class ImageUploader < CarrierWave::Uploader::Base
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   end
-
 end

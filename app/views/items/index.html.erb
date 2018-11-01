@@ -12,24 +12,44 @@
     <th width="120">画像2</th>
     <th width="120">画像3</th>
     <th width="120">画像4</th>
-    <th width="500">商品名</th>
+    <th width="3000">商品名</th>
     <th width="200">カテゴリ</th>
-    <th width="500">発送までの日数</th>
-    <th width="600">商品の状態</th>
-    <th width="450">配送元の地域</th>
-    <th width="300">金額</th>
+    <th width="2500">発送までの日数</th>
+    <th width="2000">商品の状態</th>
+    <th width="2000">配送元の地域</th>
+    <th width="2000">金額</th>
     <th width="500">内容</th>
-    <th width="350">自動出品</th>
+    <th width="1500">自動出品</th>
     <th width="100"></th>
 
     <% @items.each do |item| %>
         <tr id='item<%= item.id %>'>
             <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
-            <td class='image1'>(画像1)</td>
-            <td class='image2'>(画像2)</td>
-            <td class='image3'>(画像3)</td>
-            <td class='image4'>(画像4)</td>
-            <td class='item_name'><%= item.item_name %></td>
+            <% if item.image1.present? %>
+                <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
+            <% else %>
+                <td class='image1'>(No image)</td>
+            <% end %>
+
+            <% if item.image2.present? %>
+                <td class='image2'><%= image_tag item.image2.thumb100.url %></td>
+            <% else %>
+                <td class='image2'>(No image)</td>
+            <% end %>
+
+            <% if item.image3.present?%>
+                <td class='image3'><%= image_tag item.image3.thumb100.url %></td>
+            <% else %>
+                <td class='image3'>(No image)</td>
+            <% end %>
+
+            <% if item.image4.present?%>
+                <td class='image4'><%= image_tag item.image4.thumb100.url %></td>
+            <% else %>
+                <td class='image4'>(No image)</td>
+            <% end %>
+
+            <td class='item_name'><input type='text' value='<%= item.item_name %>'></td>
             <td class='category'><%= item.category %></td>
             <td class='shipping_duration'>
                 <%= 
@@ -104,17 +124,22 @@
                     :selected=>item.shipping_from_area)
                 %>
             </td>        
-            <td class='price'><%= item.price %></td>
+            <td class='price'>
+                <div style="display:inline-flex"><input type='text' value='<%= item.price %>'>円</div>
+            </td>
             <td class='contents'><%= item.contents %></td>
             <td class='auto_exhibit_flag'>
                 <%= 
                     select_tag '#', options_for_select(
-                    [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],"1"], 
-                    [ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1],"2"]],
-                    :selected=>item.item_condition)
+                    [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],true], 
+                    [ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1],false]],
+                    :selected=>item.auto_exhibit_flag)
                 %>
             </td>
-            <td><%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %></td>
+            <td>
+                <%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %>
+                <%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %>
+            </td>
         </tr>
     <% end %>
 </table>

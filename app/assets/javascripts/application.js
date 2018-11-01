@@ -21,24 +21,17 @@
 function click_update_item(item_id){
     item_tr = $('#item' + item_id);
     
-    image1 = item_tr.find('.image1').html();
-    image2 = item_tr.find('.image2').html();
-    image3 = item_tr.find('.image3').html();
-    image4 = item_tr.find('.image4').html();
-    item_name = item_tr.find('.item_name').html();
+    item_name = item_tr.find('.item_name').children().val();
     category = item_tr.find('.category').html();
     shipping_duration = item_tr.find('.shipping_duration').find('select').val();
     item_condition = item_tr.find('.item_condition').find('select').val();
     shipping_from_area = item_tr.find('.shipping_from_area').find('select').val();
-    price = item_tr.find('.price').html();
+    price = item_tr.find('.price').children().children().val();
     contents = item_tr.find('.contents').html();
     auto_exhibit_flag = item_tr.find('.auto_exhibit_flag').find('select').val();
 
     update_data = {
-        'image1' : image1,
-        'image2' : image2,
-        'image3' : image3,
-        'image4' : image4,
+        'id' : item_id,
         'item_name' : item_name,
         'category' : category,
         'shipping_duration' : shipping_duration,
@@ -53,7 +46,7 @@ function click_update_item(item_id){
         type: 'POST',
         url: '/update_selected_item',
         data: {
-            'data': update_data
+            'item': update_data
         }
     })
     // Ajaxリクエストが成功した時発動
@@ -62,7 +55,7 @@ function click_update_item(item_id){
     })
     // Ajaxリクエストが失敗した時発動
     .fail( (data) => {
-        alert('削除に失敗しました');
+        alert('商品情報の編集に失敗しました');
     })
     // Ajaxリクエストが成功・失敗どちらでも発動
     .always( (data) => {
@@ -81,7 +74,7 @@ function item_delete_confirm(){
         count ++;
     });
     if(count == 0){
-        alert('削除するアカウントを選択してください');
+        alert('削除する商品を選択してください');
     }
     else{
         if(window.confirm('本当にチェックした商品を削除しますか？（取り消しできません）')){

@@ -1,8 +1,8 @@
-class ImageUploader < CarrierWave::Uploader::Base
+class Image1Uploader < CarrierWave::Uploader::Base
   storage :file
 
   def store_dir
-    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.class.to_s.underscore}/icon/#{model.id}"
+    "#{model.user.class.to_s.underscore}/#{model.user.id}/#{model.mercari_user.class.to_s.underscore}/icon/#{model.mercari_user.id}/item/#{model.id}"
   end
 
   # リサイズしたり画像形式を変更するのに必要
