@@ -16,7 +16,6 @@ class MercariUser < ApplicationRecord
     self.access_token = getAccessToken()
     tmp_global_access_token = getGlobalAccessToken()
     self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
-    # binding.pry
   end
 
   def fill_in_form?
@@ -26,8 +25,8 @@ class MercariUser < ApplicationRecord
       return true
     end
   end
-  
-  private 
+
+  private
 
   require 'net/http'
     def getAccessToken()
@@ -106,7 +105,7 @@ class MercariUser < ApplicationRecord
       mercari_password = self.password
 
       uri = URI.parse("https://api.mercari.jp/users/login?_global_access_token=#{tmp_global_access_token}&_access_token=#{access_token}")
-      
+
       req = Net::HTTP::Post.new("#{uri.path}?#{uri.query}")
       data = "iv_cert=3D2F6B778FE74D30A8C787D77A2134E3&email=#{mercari_email}&revert=check&password=#{mercari_password}"
       req.body = data
@@ -135,7 +134,7 @@ class MercariUser < ApplicationRecord
         puts "-------------------------------------------Global Access Token-------------------------------------"
         puts res.code
         puts res.body
-        puts "---------------------------------------------------------------------------------------------"        
+        puts "---------------------------------------------------------------------------------------------"
         return
       end
 
