@@ -3,7 +3,6 @@ require 'fileutils'
 class MercariUsersController < ApplicationController
     def index
         @mercari_users = current_user.mercari_users
-        binding.pry
     end
 
     def new
@@ -16,7 +15,6 @@ class MercariUsersController < ApplicationController
 
     def update
         @mercari_user = current_user.mercari_users.find_by(id:params[:id])
-        # binding.pry
         if @mercari_user.update_attributes(mercari_user_params)
             # メルカリアカウントの作成に成功した場合
             flash[:success] = "メルカリアカウントの更新が完了しました"
@@ -49,7 +47,7 @@ class MercariUsersController < ApplicationController
             # メルカリユーザの商品データを削除
             delete_user.items.delete_all
             # 関連する商品データ画像の削除
-            
+
             # メルカリユーザの削除
             delete_user.delete
             # 関連するメルカリアカウントのアイコン画像の削除
@@ -62,7 +60,7 @@ class MercariUsersController < ApplicationController
     end
 
     # メルカリアカウント情報のstrongパラメータの設定
-    private 
+    private
     def mercari_user_params
         params.require(:mercari_user).permit(:name, :email, :password, :image_full_filepath, :image_full_filepath_cache)
     end

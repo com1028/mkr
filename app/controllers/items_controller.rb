@@ -25,7 +25,6 @@ class ItemsController < ApplicationController
     end
 
     def update_selected_item
-        binding.pry
     end
 
     def delete_selected_item
