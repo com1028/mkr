@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_170224) do
+ActiveRecord::Schema.define(version: 2018_11_02_160256) do
 
   create_table "items", force: :cascade do |t|
     t.integer "user_id"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2018_10_22_170224) do
     t.boolean "auto_exhibit_flag", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "shippingMethod"
+    t.integer "shippingPayer"
     t.index ["mercari_user_id"], name: "index_items_on_mercari_user_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
