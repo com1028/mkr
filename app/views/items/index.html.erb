@@ -16,6 +16,7 @@
     <th width="200">カテゴリ</th>
     <th width="2500">発送までの日数</th>
     <th width="2000">商品の状態</th>
+    <th width="2000">配送方法</th>
     <th width="2000">配送元の地域</th>
     <th width="2000">金額</th>
     <th width="500">内容</th>
@@ -69,6 +70,26 @@
                     [ItemConstant::ITEM_CONDITION_OPTIONS[3],"4"], 
                     [ItemConstant::ITEM_CONDITION_OPTIONS[4],"5"]],
                     :selected=>item.item_condition)
+                %>
+            </td>
+            <td class='shippingMethod'>
+                <%=
+                    select_tag '#', options_for_select(
+                    [[ItemConstant::SHIPPING_METHODS_BUYER[0],"1"],
+                    [ItemConstant::SHIPPING_METHODS_BUYER[1],"2"],
+                    [ItemConstant::SHIPPING_METHODS_BUYER[2],"3"],
+                    [ItemConstant::SHIPPING_METHODS_BUYER[3],"4"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[0],"5"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[1],"6"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[2],"7"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[3],"8"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[4],"9"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[5],"10"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[6],"11"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[7],"12"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[8],"13"],
+                    [ItemConstant::SHIPPING_METHODS_SELLER[9],"14"]],
+                    :selected=>item.shippingMethod)
                 %>
             </td>
             <td class='shipping_from_area'>
