@@ -11,7 +11,7 @@ class Item < ApplicationRecord
   validates :item_condition, presence: true, inclusion: { in: 1..ItemConstant::ITEM_CONDITION_OPTIONS.length }
    # メルカリで出品できる範囲が、300円から9,999,999円の範囲
   validates :price, presence: true, inclusion: { in: 300..9999999 }
-  validates :shippingMethod, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_METHODS.length }
+  validates :shippingMethod, presence: true, inclusion: { in: 1..(ItemConstant::SHIPPING_METHODS_BUYER.length +  ItemConstant::SHIPPING_METHODS_SELLER.length)}
   validates :shippingPayer, presence: true, inclusion: { in: 1..2 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
   validates :contents, length: { maximum: 1000 }
@@ -48,7 +48,7 @@ class Item < ApplicationRecord
   private
 
   def setShippingPayer
-    if self.shippingMethod < 5
+    if self.shippingMethod <= ItemConstant::SHIPPING_METHODS_BUYER.length
       self.shippingPayer = 1
     else
       self.shippingPayer = 2
