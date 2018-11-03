@@ -2,6 +2,8 @@ class Item < ApplicationRecord
   belongs_to :user, required: true
   belongs_to :mercari_user, required: true
 
+  before_validation :setShippingPayer
+
   validates :image1, presence: true
   validates :item_name, presence: true, length: { maximum: 40 }
   validates :category, presence: true
@@ -9,6 +11,8 @@ class Item < ApplicationRecord
   validates :item_condition, presence: true, inclusion: { in: 1..ItemConstant::ITEM_CONDITION_OPTIONS.length }
    # メルカリで出品できる範囲が、300円から9,999,999円の範囲
   validates :price, presence: true, inclusion: { in: 300..9999999 }
+  validates :shippingMethod, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_METHODS.length }
+  validates :shippingPayer, presence: true, inclusion: { in: 1..2 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
   validates :contents, length: { maximum: 1000 }
 
@@ -38,6 +42,16 @@ class Item < ApplicationRecord
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]
     else
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]
+    end
+  end
+
+  private
+
+  def setShippingPayer
+    if self.shippingMethod < 5
+      self.shippingPayer = 1
+    else
+      self.shippingPayer = 2
     end
   end
 
