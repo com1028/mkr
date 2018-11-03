@@ -1,6 +1,5 @@
 <%= form_for(@item) do |f| %>
   <%= render 'shared/error_messages_items' %>
-
   <%= f.hidden_field :mercari_user_id, :value => @mercari_user.id %>
 
   <% if @item.image1? %>
@@ -79,6 +78,25 @@
                                 ],class: 'form-control' %>
   <%= f.label :金額 %>
   <%= f.text_field :price, class: 'form-control' %>
+
+  <%= f.label :配送方法 %>
+  <%= f.select :shippingMethod, [
+                                      ["#{ItemConstant::SHIPPING_METHODS[0]}", 1], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[1]}", 2], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[2]}", 3], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[3]}", 4], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[4]}", 5], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[5]}", 6], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[6]}", 7], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[7]}", 8], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[8]}", 9], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[9]}", 10], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[10]}", 11], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[11]}", 12], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[12]}", 13], 
+                                      ["#{ItemConstant::SHIPPING_METHODS[13]}", 14]
+                                   ],class: 'form-control' %>
+
 
   <%= f.label :配送元の地域 %>
   <%= f.select :shipping_from_area, [
