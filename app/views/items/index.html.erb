@@ -137,8 +137,9 @@
                 %>
             </td>
             <td>
-                <%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %>
-                <%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %>
+                <p><%= link_to '出品', '#', class: 'btn btn-danger' %></p>
+                <p><%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %></p>
+                <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
             </td>
         </tr>
     <% end %>
