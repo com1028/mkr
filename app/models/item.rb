@@ -44,6 +44,14 @@ class Item < ApplicationRecord
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]
     end
   end
+  
+  def getImageFullPath(image)
+    if image.present?
+      return "#{PathConstant::IMAGE_FILES_ROOT_PATH}#{image}"
+    else
+      return nil
+    end
+  end
 
   private
 

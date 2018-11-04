@@ -73,6 +73,8 @@ class ItemsController < ApplicationController
     def exhibit
         @item = Item.find_by(id: params['item_id'])
         @mercari_user = @item.mercari_user
+        cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{@item.mercari_user.global_access_token} #{@item.mercari_user.access_token} #{@item.getImageFullPath(@item.image1.to_s)} #{@item.getImageFullPath(@item.image2.to_s)} #{@item.getImageFullPath(@item.image3.to_s)} #{@item.getImageFullPath(@item.image4.to_s)} '#{@item.item_name}' '#{@item.contents}' #{@item.category} #{@item.item_condition} #{@item.shippingPayer} #{@item.shippingMethod} #{@item.shipping_from_area} #{@item.shipping_duration} #{@item.price}"
+        system(cmd)
     end
 
     private
