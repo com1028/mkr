@@ -70,6 +70,11 @@ class ItemsController < ApplicationController
         redirect_to items_path(mercari_user_id: @mercari_user.id)
     end
 
+    def exhibit
+        @item = Item.find_by(id: params['item_id'])
+        @mercari_user = @item.mercari_user
+    end
+
     private
     def item_params
         params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
