@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user, required: true
   belongs_to :mercari_user, required: true
+  has_many :exhibit_historys
 
   before_validation :setShippingPayer
 
