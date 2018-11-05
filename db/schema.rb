@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_160256) do
+ActiveRecord::Schema.define(version: 2018_11_05_145202) do
+
+  create_table "exhibit_histories", force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "mercari_user_id"
+    t.integer "user_id"
+    t.string "mercari_item_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_exhibit_histories_on_item_id"
+    t.index ["mercari_user_id"], name: "index_exhibit_histories_on_mercari_user_id"
+    t.index ["user_id"], name: "index_exhibit_histories_on_user_id"
+  end
 
   create_table "items", force: :cascade do |t|
     t.integer "user_id"

@@ -1,0 +1,2 @@
+class ExhibitHistory < ApplicationRecord
+end
