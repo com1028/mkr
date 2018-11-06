@@ -2,6 +2,8 @@ class MercariUser < ApplicationRecord
   belongs_to :user, required: true
   has_many :items
 
+  before_validation :setMercariToken
+
   validates :name, presence: true
   validates :email, presence: true
   validates :password, presence: true

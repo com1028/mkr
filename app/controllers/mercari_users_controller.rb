@@ -27,7 +27,6 @@ class MercariUsersController < ApplicationController
 
     def create
         @mercari_user = current_user.mercari_users.new(mercari_user_params)
-        @mercari_user.setMercariToken()
         # @mercari_user.access_token = "aaa"
         # @mercari_user.global_access_token = "bbb"
         if @mercari_user.save
