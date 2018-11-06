@@ -33,7 +33,7 @@ class Item < ApplicationRecord
 
   def getShippingFromArea
     options = ItemConstant::SHIPPING_FROM_AREA_OPTIONS
-      return options[self.shipping_from_area-1]
+    return options[self.shipping_from_area-1]
   end
 
   # 自動出品をするかを返す
