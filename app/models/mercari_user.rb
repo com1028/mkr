@@ -15,9 +15,11 @@ class MercariUser < ApplicationRecord
 
   def setMercariToken()
     return if !fill_in_form?()
-    self.access_token = getAccessToken()
-    tmp_global_access_token = getGlobalAccessToken()
-    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    if self.email_changed? || self.password_changed?
+      self.access_token = getAccessToken()
+      tmp_global_access_token = getGlobalAccessToken()
+      self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    end
   end
 
   def fill_in_form?
