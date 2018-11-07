@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :mercari_users
   has_many :items
+  has_many :exhibit_historys
 
 end

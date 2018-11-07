@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post '/delete_selected_mercari_account', to: 'mercari_users#delete_selected_user'
   post '/delete_selected_item', to: 'items#delete_selected_item'
   post '/update_selected_item', to: 'items#update_selected_item'
+  post '/exhibit', to: 'items#exhibit'
   devise_for :users
   resources :mercari_users
   resources :items

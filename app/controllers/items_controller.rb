@@ -70,6 +70,21 @@ class ItemsController < ApplicationController
         redirect_to items_path(mercari_user_id: @mercari_user.id)
     end
 
+    def exhibit
+        @item = Item.find_by(id: params['item_id'])
+        @mercari_user = @item.mercari_user
+        # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
+        cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{@item.mercari_user.global_access_token} #{@item.mercari_user.access_token} #{@item.getImageFullPath(@item.image1.to_s)} #{@item.getImageFullPath(@item.image2.to_s)} #{@item.getImageFullPath(@item.image3.to_s)} #{@item.getImageFullPath(@item.image4.to_s)} '#{@item.item_name}' '#{@item.contents}' #{@item.category} #{@item.item_condition} #{@item.shippingPayer} #{@item.shippingMethod} #{@item.shipping_from_area} #{@item.shipping_duration} #{@item.price}"
+        result = `#{cmd}`
+        if result.start_with?("m") && !result.include?("\n")
+            # 出品成功時の処理
+            exhibit_history = ExhibitHistory.new(item_id: @item.id, mercari_user_id: @mercari_user.id, user_id: current_user.id, mercari_item_token: result)
+            exhibit_history.save
+        else
+            # 出品失敗時の処理
+        end
+    end
+
     private
     def item_params
         params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,

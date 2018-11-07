@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user, required: true
   belongs_to :mercari_user, required: true
+  has_many :exhibit_historys
 
   before_validation :setShippingPayer
 
@@ -42,6 +43,14 @@ class Item < ApplicationRecord
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]
     else
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]
+    end
+  end
+  
+  def getImageFullPath(image)
+    if image.present?
+      return "#{PathConstant::IMAGE_FILES_ROOT_PATH}#{image}"
+    else
+      return nil
     end
   end
 
