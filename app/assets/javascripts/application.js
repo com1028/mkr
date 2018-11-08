@@ -66,6 +66,43 @@ function click_update_item(item_id){
 
 }
 
+// メルカリから商品削除のダイアログを表示
+function item_delete_from_mercari_confirm(){
+    delete_item_id = [];
+    count = 0;
+    $("input[type='checkbox']").filter(":checked").map(function() {
+        id = $(this).attr("id");
+        delete_item_id.push(id);
+        count ++;
+    });
+    if(count == 0){
+        alert('メルカリから削除する商品を選択してください');
+    }
+    else{
+        if(window.confirm('本当にチェックした商品をメルカリから削除しますか？（取り消しできません）')){
+            $.ajax({
+                type: 'POST',
+                url: '/delete_selected_item_from_mercari',
+                data: {
+                    'itemlist': delete_item_id
+                }
+            })
+            // Ajaxリクエストが成功した時発動
+            .done( (data) => {
+
+            })
+            // Ajaxリクエストが失敗した時発動
+            .fail( (data) => {
+                alert('削除に失敗しました');
+            })
+            // Ajaxリクエストが成功・失敗どちらでも発動
+            .always( (data) => {
+
+            });;
+        }
+    }
+}
+
 //  商品データの削除確認ダイアログを表示
 function item_delete_confirm(){
     delete_item_id = [];
