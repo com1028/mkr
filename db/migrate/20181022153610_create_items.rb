@@ -1,8 +1,8 @@
 class CreateItems < ActiveRecord::Migration[5.2]
   def change
     create_table :items do |t|
-      t.references :user_id, foreign_key: true
-      t.references :mercari_user_id, foreign_key: true
+      t.integer :user_id, foreign_key: true
+      t.integer :mercari_user_id, foreign_key: true
       t.string :image1
       t.string :image2
       t.string :image3
@@ -14,6 +14,8 @@ class CreateItems < ActiveRecord::Migration[5.2]
       t.integer :price
       t.integer :shipping_from_area
       t.integer :shipping_duration
+      t.integer :shipping_method
+      t.integer :shipping_payer
       t.text :contents
       t.boolean :auto_exhibit_flag
 
