@@ -60,6 +60,12 @@ class ItemsController < ApplicationController
             if i == 0
                 @mercari_user = delete_item.mercari_user
             end
+            delete_item.exhibit_historys.each do |history|
+                # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
+                cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{@mercari_user.access_token} #{@mercari_user.global_access_token}"
+                result = `#{cmd}`
+                history.delete
+            end
             delete_item.delete
             # 商品の画像を削除
             delete_dir = "#{Rails.root}/public/#{delete_item.user.class.to_s.underscore}/#{delete_item.user.id}/#{delete_item.mercari_user.class.to_s.underscore}/icon/#{delete_item.mercari_user.id}/item/#{delete_item.id}"
