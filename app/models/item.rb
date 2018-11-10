@@ -3,7 +3,7 @@ class Item < ApplicationRecord
   belongs_to :mercari_user, required: true
   has_many :exhibit_historys
 
-  before_validation :setShippingPayer
+  before_validation :setshipping_payer
 
   validates :image1, presence: true
   validates :item_name, presence: true, length: { maximum: 40 }
@@ -12,8 +12,8 @@ class Item < ApplicationRecord
   validates :item_condition, presence: true, inclusion: { in: 1..ItemConstant::ITEM_CONDITION_OPTIONS.length }
    # メルカリで出品できる範囲が、300円から9,999,999円の範囲
   validates :price, presence: true, inclusion: { in: 300..9999999 }
-  validates :shippingMethod, presence: true, inclusion: { in: 1..(ItemConstant::SHIPPING_METHODS_BUYER.length +  ItemConstant::SHIPPING_METHODS_SELLER.length)}
-  validates :shippingPayer, presence: true, inclusion: { in: 1..2 }
+  validates :shipping_method, presence: true, inclusion: { in: 1..(ItemConstant::SHIPPING_METHODS_BUYER.length +  ItemConstant::SHIPPING_METHODS_SELLER.length)}
+  validates :shipping_payer, presence: true, inclusion: { in: 1..2 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
   validates :contents, length: { maximum: 1000 }
 
@@ -56,13 +56,13 @@ class Item < ApplicationRecord
 
   private
 
-  def setShippingPayer
-    if self.shippingMethod <= ItemConstant::SHIPPING_METHODS_BUYER.length
+  def setshipping_payer
+    if self.shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
       # 購入者負担
-      self.shippingPayer = 1
+      self.shipping_payer = 1
     else
       # 出品者負担
-      self.shippingPayer = 2
+      self.shipping_payer = 2
     end
   end
 
