@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: 
+  mercari_user: 
+  user: 
+  mercari_item_token: MyString
+
+two:
+  item: 
+  mercari_user: 
+  user: 
+  mercari_item_token: MyString

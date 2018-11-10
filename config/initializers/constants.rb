@@ -12,3 +12,11 @@ module ItemConstant
     SHIPPING_METHODS_SELLER = ["未定（出品者負担）", "ゆうメール（出品者負担）", "ポスパケット（出品者負担）", "レターパック（出品者負担）", "普通郵便（出品者負担）", 
          "クロネコヤマト（出品者負担）", "ゆうパック（出品者負担）", "はこBOON（出品者負担）", "クリップポスト（出品者負担）", "らくらくメルカリ便（出品者負担）"]
 end
+
+module APIConstant
+    API_PATH = "lib/api"
+end
+
+module PathConstant
+    IMAGE_FILES_ROOT_PATH = "#{Rails.root.to_s}/public"
+end

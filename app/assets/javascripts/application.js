@@ -25,7 +25,7 @@ function click_update_item(item_id){
     category = item_tr.find('.category').html();
     shipping_duration = item_tr.find('.shipping_duration').find('select').val();
     item_condition = item_tr.find('.item_condition').find('select').val();
-    shippingMethod = item_tr.find('.shippingMethod').find('select').val();
+    shipping_method = item_tr.find('.shipping_method').find('select').val();
     shipping_from_area = item_tr.find('.shipping_from_area').find('select').val();
     price = item_tr.find('.price').children().children().val();
     contents = item_tr.find('.contents').html();
@@ -37,7 +37,7 @@ function click_update_item(item_id){
         'category' : category,
         'shipping_duration' : shipping_duration,
         'item_condition' : item_condition,
-        'shippingMethod' : shippingMethod,
+        'shipping_method' : shipping_method,
         'shipping_from_area' : shipping_from_area,
         'price' : price,
         'contents' : contents,

@@ -72,7 +72,7 @@
                     :selected=>item.item_condition)
                 %>
             </td>
-            <td class='shippingMethod'>
+            <td class='shipping_method'>
                 <%=
                     select_tag '#', options_for_select(
                     [[ItemConstant::SHIPPING_METHODS_BUYER[0],"1"],
@@ -89,7 +89,7 @@
                     [ItemConstant::SHIPPING_METHODS_SELLER[7],"12"],
                     [ItemConstant::SHIPPING_METHODS_SELLER[8],"13"],
                     [ItemConstant::SHIPPING_METHODS_SELLER[9],"14"]],
-                    :selected=>item.shippingMethod)
+                    :selected=>item.shipping_method)
                 %>
             </td>
             <td class='shipping_from_area'>
@@ -158,8 +158,9 @@
                 %>
             </td>
             <td>
-                <%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %>
-                <%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %>
+                <p><%= link_to '出品', exhibit_path(item_id: item.id), :method => :post, class: 'btn btn-danger' %></p>
+                <p><%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %></p>
+                <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
             </td>
         </tr>
     <% end %>

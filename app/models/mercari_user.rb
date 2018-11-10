@@ -1,6 +1,7 @@
 class MercariUser < ApplicationRecord
   belongs_to :user, required: true
   has_many :items
+  has_many :exhibit_historys
 
   before_validation :setMercariToken
 
