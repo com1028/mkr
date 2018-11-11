@@ -72,7 +72,7 @@
                     :selected=>item.item_condition)
                 %>
             </td>
-            <td class='shippingMethod'>
+            <td class='shipping_method'>
                 <%=
                     select_tag '#', options_for_select(
                     [[ItemConstant::SHIPPING_METHODS_BUYER[0],"1"],
@@ -89,7 +89,7 @@
                     [ItemConstant::SHIPPING_METHODS_SELLER[7],"12"],
                     [ItemConstant::SHIPPING_METHODS_SELLER[8],"13"],
                     [ItemConstant::SHIPPING_METHODS_SELLER[9],"14"]],
-                    :selected=>item.shippingMethod)
+                    :selected=>item.shipping_method)
                 %>
             </td>
             <td class='shipping_from_area'>

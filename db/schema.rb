@@ -12,19 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2018_11_05_145202) do
 
-  create_table "exhibit_histories", force: :cascade do |t|
+  create_table "exhibit_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "item_id"
     t.integer "mercari_user_id"
     t.integer "user_id"
     t.string "mercari_item_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_exhibit_histories_on_item_id"
-    t.index ["mercari_user_id"], name: "index_exhibit_histories_on_mercari_user_id"
-    t.index ["user_id"], name: "index_exhibit_histories_on_user_id"
   end
 
-  create_table "items", force: :cascade do |t|
+  create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "mercari_user_id"
     t.string "image1"
@@ -37,17 +34,15 @@ ActiveRecord::Schema.define(version: 2018_11_05_145202) do
     t.integer "item_condition"
     t.integer "price"
     t.integer "shipping_from_area"
+    t.integer "shipping_method"
+    t.integer "shipping_payer"
     t.text "contents"
     t.boolean "auto_exhibit_flag", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "shippingMethod"
-    t.integer "shippingPayer"
-    t.index ["mercari_user_id"], name: "index_items_on_mercari_user_id"
-    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
-  create_table "mercari_users", force: :cascade do |t|
+  create_table "mercari_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "image_full_filepath"
     t.string "email", null: false
@@ -58,10 +53,9 @@ ActiveRecord::Schema.define(version: 2018_11_05_145202) do
     t.boolean "in_progress", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_mercari_users_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
