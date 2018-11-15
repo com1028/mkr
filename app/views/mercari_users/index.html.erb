@@ -18,11 +18,11 @@
     <td><%= link_to mercari_user.name, edit_mercari_user_path(mercari_user) %></td>
     <td><%= link_to '商品一覧', items_path(mercari_user_id: mercari_user.id) %></td>
     <td>
-        <% if mercari_user.in_progress? %>
-            出品中
-        <% else %>
-            停止中
-        <% end %>
+      <% if mercari_user.in_progress? %>
+        出品中
+      <% else %>
+        停止中
+      <% end %>
     </td>
     <td>（前回の出品日時）</td>
     <td>（前に自動出品した商品名）</td>
