@@ -23,7 +23,9 @@ class Item < ApplicationRecord
   mount_uploader :image4, Image4Uploader
 
   # 前回に自動出品した商品を取得
-  scope :last_exhibit_item, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where.not(last_auto_exhibit_date: nil)}
+  scope :last_exhibit_item, -> (mercari_user_id){where(mercari_user_id: mercari_user_id).where.not(last_auto_exhibit_date: nil).first}
+  # 次回出品する商品を取得
+  scope :next_exhibit_item, -> (mercari_user_id, last_exhibit_item){last_exhibit_item.next(Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true), mercari_user_id)}
 
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
@@ -55,6 +57,15 @@ class Item < ApplicationRecord
     else
       return nil
     end
+  end
+
+
+  def next(items, mercari_user_id)
+    item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", self.id).order("id ASC").first
+    if item.nil?
+      item = Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
+    end
+    return item
   end
 
   private

@@ -120,6 +120,7 @@ class ItemsController < ApplicationController
       mercari_users = MercariUser.all_in_progress_user
       mercari_users.each do |mercari_user|
         last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
+        next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
         binding.pry
       end
     end
