@@ -103,7 +103,7 @@ class ItemsController < ApplicationController
     end
 
     # 自動出品を開始
-    def auto_exhibit
+    def start_auto_exhibit
       auto_exhibit_user = MercariUser.find_by(id: params['mercari_user_id'], in_progress: false)
       auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
     end
