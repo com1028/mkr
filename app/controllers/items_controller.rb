@@ -138,6 +138,8 @@ class ItemsController < ApplicationController
           # 最終自動出品日時を更新
           last_exhibit_item.update(last_auto_exhibit_date: nil)
           next_exhibit_item.update(last_auto_exhibit_date: Time.now)
+          # MercariUserカラムのlast_auto_exhibit_dateも更新（ifの制御用）
+          # mercari_user.update(last_auto_exhibit_date: Time.now)
         end
       end
     end
