@@ -102,10 +102,16 @@ class ItemsController < ApplicationController
       exhibit(item)
     end
 
-    # 自動出品
+    # 自動出品を開始
     def auto_exhibit
       auto_exhibit_user = MercariUser.find_by(id: params['mercari_user_id'], in_progress: false)
-      binding.pry
+      auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+    end
+
+    # 自動出品を停止
+    def stop_auto_exhibit
+      auto_exhibit_user = MercariUser.find_by(id: params['mercari_user_id'], in_progress: true)
+      auto_exhibit_user.update(in_progress: false) if auto_exhibit_user.present?
     end
 
     private
