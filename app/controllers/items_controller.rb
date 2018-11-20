@@ -53,16 +53,16 @@ class ItemsController < ApplicationController
     end
 
     def delete_selected_item
-      @mercari_user = nil
+      mercari_user = nil
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
         delete_item = Item.find_by(id: list)
         if i == 0
-          @mercari_user = delete_item.mercari_user
+          mercari_user = delete_item.mercari_user
         end
         delete_item.exhibit_historys.each do |history|
           # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{@mercari_user.access_token} #{@mercari_user.global_access_token}"
+          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{mercari_user.access_token} #{mercari_user.global_access_token}"
           result = `#{cmd}`
           history.delete
         end
@@ -73,27 +73,27 @@ class ItemsController < ApplicationController
       end
       flash[:success] = '商品を削除しました'
       # 商品一覧へリダイレクト
-      redirect_to items_path(mercari_user_id: @mercari_user.id)
+      redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
     def delete_selected_item_from_mercari
-      @mercari_user = nil
+      mercari_user = nil
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
         delete_item = Item.find_by(id: list)
         if i == 0
-          @mercari_user = delete_item.mercari_user
+          mercari_user = delete_item.mercari_user
         end
         delete_item.exhibit_historys.each do |history|
           # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{@mercari_user.access_token} #{@mercari_user.global_access_token}"
+          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{mercari_user.access_token} #{mercari_user.global_access_token}"
           result = `#{cmd}`
           history.delete
         end
       end
       flash[:success] = 'メルカリから商品を削除しました'
       # 商品一覧へリダイレクト
-      redirect_to items_path(mercari_user_id: @mercari_user.id)
+      redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
     def simple_exhibit
