@@ -3,7 +3,7 @@
 
 <%= link_to '商品を削除', 'javascript:item_delete_confirm()', class: 'btn btn-danger' %>
 <%= link_to 'メルカリから商品を削除', 'javascript:item_delete_from_mercari_confirm()', class: 'btn btn-warning' %>
-<%= link_to '自動出品を開始', '#', class: 'btn btn-primary' %>
+<%= link_to '自動出品を開始', '/auto_exhibit', :method => :post, class: 'btn btn-primary' %>
 <%= link_to '自動出品を停止', '#', class: 'btn btn-success' %>
 <p></p>
 <table class="table table-striped">

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post '/delete_selected_item', to: 'items#delete_selected_item'
   post '/update_selected_item', to: 'items#update_selected_item'
   post '/exhibit', to: 'items#simple_exhibit'
+  post '/auto_exhibit', to: 'items#auto_exhibit'
   devise_for :users
   resources :mercari_users
   resources :items

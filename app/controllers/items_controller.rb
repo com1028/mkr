@@ -103,7 +103,9 @@ class ItemsController < ApplicationController
     end
 
     # 自動出品
-    def auto_exhibit(item)
+    def auto_exhibit
+      auto_exhibit_users = MercariUser.where(in_progress: true)
+      binding.pry
     end
 
     private
