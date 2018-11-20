@@ -59,7 +59,7 @@ class Item < ApplicationRecord
     end
   end
 
-
+  # 次の自動出品の商品を取得
   def next(items, mercari_user_id)
     item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", self.id).order("id ASC").first
     if item.nil?
