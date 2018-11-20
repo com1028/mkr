@@ -133,7 +133,6 @@ class ItemsController < ApplicationController
           next_exhibit_item = nil
         else
           next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
-          # next_exhibit_item = nil unless next_exhibit_item.count.nil?
           # 過去の同じ商品の出品でコメントのあった商品は削除
           # 出品処理
           # 最終自動出品日時を更新
