@@ -103,7 +103,7 @@ class ItemsController < ApplicationController
     end
 
     # 自動出品
-    def auto_exhibit
+    def auto_exhibit(item)
     end
 
     private
