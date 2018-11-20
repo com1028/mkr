@@ -96,9 +96,14 @@ class ItemsController < ApplicationController
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
+    # 単体で出品
     def simple_exhibit
       item = Item.find_by(id: params['item_id'])
       exhibit(item)
+    end
+
+    # 自動出品
+    def auto_exhibit
     end
 
     private
