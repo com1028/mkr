@@ -17,6 +17,9 @@ class MercariUser < ApplicationRecord
   scope :in_not_progress_user, -> (id){find_by(id: id, in_progress: false)}
   scope :in_progress_user, -> (id){find_by(id: id, in_progress: true)}
 
+  # 全ての「自動出品中」ユーザを取得
+  scope :all_in_progress_user, -> {where(in_progress: true)}
+
   def setMercariToken()
     return if !fill_in_form?()
     if self.email_changed? || self.password_changed?

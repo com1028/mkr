@@ -104,8 +104,9 @@ class ItemsController < ApplicationController
 
     # 自動出品を開始
     def start_auto_exhibit
-      auto_exhibit_user = MercariUser.in_not_progress_user(params['mercari_user_id'])
-      auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+      # auto_exhibit_user = MercariUser.in_not_progress_user(params['mercari_user_id'])
+      # auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+      auto_exhibit
     end
 
     # 自動出品を停止
@@ -115,7 +116,12 @@ class ItemsController < ApplicationController
     end
 
     # 自動出品処理
-    def auto_exhibit_exhibit
+    def auto_exhibit
+      mercari_users = MercariUser.all_in_progress_user
+      mercari_users.each do |mercari_user|
+        last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
+        binding.pry
+      end
     end
 
     private

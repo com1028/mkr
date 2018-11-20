@@ -22,6 +22,9 @@ class Item < ApplicationRecord
   mount_uploader :image3, Image3Uploader
   mount_uploader :image4, Image4Uploader
 
+  # 前回に自動出品した商品を取得
+  scope :last_exhibit_item, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where.not(last_auto_exhibit_date: nil)}
+
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
     return options[self.item_condition-1]
