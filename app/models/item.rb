@@ -27,6 +27,9 @@ class Item < ApplicationRecord
   # 次回出品する商品を取得
   scope :next_exhibit_item, -> (mercari_user_id, last_exhibit_item){last_exhibit_item.next(Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true), mercari_user_id)}
 
+  # 特定のメルカリアカウントにおける自動出品対象の商品の数を取得
+  scope :auto_exhibit_count_by_mercari_user, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).count}
+
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
     return options[self.item_condition-1]

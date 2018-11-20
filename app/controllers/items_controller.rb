@@ -120,7 +120,7 @@ class ItemsController < ApplicationController
       mercari_users = MercariUser.all_in_progress_user
       mercari_users.each do |mercari_user|
         last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
-        if mercari_user.items.where(mercari_user_id: mercari_user.id, auto_exhibit_flag: true).count == 0
+        if mercari_user.items.auto_exhibit_count_by_mercari_user(mercari_user.id) == 0
           next_exhibit_item = nil
         else
           next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
