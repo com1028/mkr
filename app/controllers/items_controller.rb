@@ -120,7 +120,17 @@ class ItemsController < ApplicationController
       mercari_users = MercariUser.all_in_progress_user
       mercari_users.each do |mercari_user|
         last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
-        next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
+        if mercari_user.items.where(mercari_user_id: mercari_user.id, auto_exhibit_flag: true).count == 0
+          next_exhibit_item = nil
+        else
+          next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
+          # next_exhibit_item = nil unless next_exhibit_item.count.nil?
+          # 過去の同じ商品の出品でコメントのあった商品は削除
+          # 出品処理
+          # 最終自動出品日時を更新
+          last_exhibit_item.update(last_auto_exhibit_date: nil)
+          next_exhibit_item.update(last_auto_exhibit_date: Time.now)
+        end
         binding.pry
       end
     end
