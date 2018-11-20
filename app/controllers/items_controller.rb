@@ -114,6 +114,10 @@ class ItemsController < ApplicationController
       auto_exhibit_user.update(in_progress: false) if auto_exhibit_user.present?
     end
 
+    # 自動出品処理
+    def auto_exhibit_exhibit
+    end
+
     private
 
     def exhibit(item)
