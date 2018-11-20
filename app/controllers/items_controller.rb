@@ -119,7 +119,16 @@ class ItemsController < ApplicationController
     def auto_exhibit
       mercari_users = MercariUser.all_in_progress_user
       mercari_users.each do |mercari_user|
-        last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
+        final_auto_exhibit_count = Item.final_auto_exhibit_count(mercari_user.id)
+        # まだ自動出品をしていないとき
+        if final_auto_exhibit_count == 0
+          # 最終出品商品は、商品レコードの最後の商品とみなす
+          last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id).last
+        # 既に自動出品をしているとき
+        else final_auto_exhibit_count == 1
+          last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
+        end
+
         if mercari_user.items.auto_exhibit_count_by_mercari_user(mercari_user.id) == 0
           next_exhibit_item = nil
         else
@@ -131,7 +140,6 @@ class ItemsController < ApplicationController
           last_exhibit_item.update(last_auto_exhibit_date: nil)
           next_exhibit_item.update(last_auto_exhibit_date: Time.now)
         end
-        binding.pry
       end
     end
 
