@@ -41,7 +41,5 @@ class ExhibitHistory < ApplicationRecord
 			#	NG
 			return false
 		end
-
 	end
-
 end
