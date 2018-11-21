@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_20_183357) do
+ActiveRecord::Schema.define(version: 2018_11_21_104704) do
 
   create_table "exhibit_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "item_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2018_11_20_183357) do
     t.boolean "auto_exhibit_flag", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.time "last_auto_exhibit_date"
+    t.string "last_auto_exhibit_date"
   end
 
   create_table "mercari_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -127,15 +127,18 @@ class ItemsController < ApplicationController
         else
           next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
 
-          # 前回の出品から2時間が経過している場合
+          # 前回の出品から出品時間(デフォルトは2時間)が経過している場合
+          if Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + 2.hour
+          binding.pry
 
-            # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
-            next_exhibit_item.deleteIfExistComment
-            # 出品処理
-            next_exhibit_item.exhibit
+            # # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
+            # next_exhibit_item.deleteIfExistComment
+            # # 出品処理
+            # next_exhibit_item.exhibit
             # 最終自動出品日時を更新
             last_exhibit_item.update(last_auto_exhibit_date: nil)
-            next_exhibit_item.update(last_auto_exhibit_date: Time.now)
+            next_exhibit_item.update(last_auto_exhibit_date: Time.now.to_s(:db))
+          end
         end
       end
     end
