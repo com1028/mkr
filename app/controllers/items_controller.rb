@@ -131,12 +131,10 @@ class ItemsController < ApplicationController
           exhibit_interval = mercari_user.exhibit_interval
           exhibit_interval = 2 if exhibit_interval.nil?
           if Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + exhibit_interval.hour
-          binding.pry
-
             # # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
-            # next_exhibit_item.deleteIfExistComment
+            next_exhibit_item.deleteIfExistComment
             # # 出品処理
-            # next_exhibit_item.exhibit
+            next_exhibit_item.exhibit
             # 最終自動出品日時を更新
             last_exhibit_item.update(last_auto_exhibit_date: nil)
             next_exhibit_item.update(last_auto_exhibit_date: Time.now.to_s(:db))
