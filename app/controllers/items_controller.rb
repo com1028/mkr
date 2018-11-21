@@ -128,7 +128,9 @@ class ItemsController < ApplicationController
           next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
 
           # 前回の出品から出品時間(デフォルトは2時間)が経過している場合
-          if Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + 2.hour
+          exhibit_interval = mercari_user.exhibit_interval
+          exhibit_interval = 2 if exhibit_interval.nil?
+          if Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + exhibit_interval.hour
           binding.pry
 
             # # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
