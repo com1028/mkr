@@ -128,12 +128,13 @@ class ItemsController < ApplicationController
         else final_auto_exhibit_count == 1
           last_exhibit_item = mercari_user.items.last_exhibit_item(mercari_user.id)
         end
-
         if mercari_user.items.auto_exhibit_count_by_mercari_user(mercari_user.id) == 0
           next_exhibit_item = nil
         else
           next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
-          # 過去の同じ商品の出品でコメントのあった商品は削除
+          # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
+          next_exhibit_item.deleteIfExistComment
+          # binding.pry
           # 出品処理
           # 最終自動出品日時を更新
           last_exhibit_item.update(last_auto_exhibit_date: nil)

@@ -74,6 +74,15 @@ class Item < ApplicationRecord
     return item
   end
 
+  def deleteIfExistComment
+    exhibit_historys.each do |exhibit_history|
+      binding.pry
+      unless exhibit_history.existComment?
+        exhibit_history.deleteItemFromMercari
+      end
+    end
+  end
+
   private
 
   def setshipping_payer
