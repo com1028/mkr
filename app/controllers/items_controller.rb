@@ -93,7 +93,7 @@ class ItemsController < ApplicationController
     # 単体で出品
     def simple_exhibit
       item = Item.find_by(id: params['item_id'])
-      exhibit(item)
+      item.exhibit
     end
 
     # 自動出品を開始
@@ -132,7 +132,7 @@ class ItemsController < ApplicationController
             # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
             next_exhibit_item.deleteIfExistComment
             # 出品処理
-            exhibit(next_exhibit_item)
+            next_exhibit_item.exhibit
             # 最終自動出品日時を更新
             last_exhibit_item.update(last_auto_exhibit_date: nil)
             next_exhibit_item.update(last_auto_exhibit_date: Time.now)
@@ -141,20 +141,6 @@ class ItemsController < ApplicationController
     end
 
     private
-
-    def exhibit(item)
-      mercari_user = item.mercari_user
-      # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-      cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{item.mercari_user.global_access_token} #{item.mercari_user.access_token} #{item.getImageFullPath(item.image1.to_s)} #{item.getImageFullPath(item.image2.to_s)} #{item.getImageFullPath(item.image3.to_s)} #{item.getImageFullPath(item.image4.to_s)} '#{item.item_name}' '#{item.contents}' #{item.category} #{item.item_condition} #{item.shipping_payer} #{item.shipping_method} #{item.shipping_from_area} #{item.shipping_duration} #{item.price}"
-      result = `#{cmd}`
-      if result.start_with?("m") && !result.include?("\n")
-        # 出品成功時の処理
-        exhibit_history = ExhibitHistory.new(item_id: item.id, mercari_user_id: mercari_user.id, user_id: current_user.id, mercari_item_token: result)
-        exhibit_history.save
-      else
-        # 出品失敗時の処理
-      end
-    end
 
     def item_params
       params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
