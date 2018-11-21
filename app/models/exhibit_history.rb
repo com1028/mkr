@@ -5,6 +5,7 @@ class ExhibitHistory < ApplicationRecord
 
 	validates :mercari_item_token, presence: true, uniqueness: true
 
+	#	特定のメルカリIDの商品をメルカリ上から削除
 	def deleteItemFromMercari
 		# 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
 		cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{mercari_item_token} #{mercari_user.access_token} #{mercari_user.global_access_token}"
