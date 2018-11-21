@@ -85,10 +85,7 @@ class ItemsController < ApplicationController
           mercari_user = delete_item.mercari_user
         end
         delete_item.exhibit_historys.each do |history|
-          # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{mercari_user.access_token} #{mercari_user.global_access_token}"
-          result = `#{cmd}`
-          history.delete
+          history.deleteItemFromMercari
         end
       end
       flash[:success] = 'メルカリから商品を削除しました'
