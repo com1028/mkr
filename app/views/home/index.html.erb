@@ -1,4 +1,4 @@
-<% if current_user.nil? %>
+<% if current_user.blank? %>
   ログインはこちら
   <%= link_to "ログイン", new_user_session_path %>
 <% else %>

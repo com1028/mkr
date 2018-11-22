@@ -4,7 +4,7 @@
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "トップ", root_path %></li>
-        <% if current_user.nil? %>
+        <% if current_user.blank? %>
           <li><%= link_to "ログイン", login_path %></li>
         <% else %>
           <li><%= link_to "メルカリアカウント", mercari_users_path %></li>
