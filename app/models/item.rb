@@ -15,7 +15,7 @@ class Item < ApplicationRecord
   validates :shipping_method, presence: true, inclusion: { in: 1..(ItemConstant::SHIPPING_METHODS_BUYER.length +  ItemConstant::SHIPPING_METHODS_SELLER.length)}
   validates :shipping_payer, presence: true, inclusion: { in: 1..2 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
-  validates :contents, length: { maximum: 1000 }
+  validates :contents, length: { in: 1..1000 }
 
   mount_uploader :image1, Image1Uploader
   mount_uploader :image2, Image2Uploader
