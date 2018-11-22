@@ -11,6 +11,7 @@ class MercariUser < ApplicationRecord
   validates :access_token, presence: true
   validates :global_access_token, presence: true
   validates :image_full_filepath, presence: true
+  validates :exhibit_interval, :numericality => {greater_than_or_equal_to: 2}
 
   mount_uploader :image_full_filepath, ImageUploader
 
