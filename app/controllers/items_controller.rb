@@ -57,9 +57,7 @@ class ItemsController < ApplicationController
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
         delete_item = Item.find_by(id: list)
-        if i == 0
-          mercari_user = delete_item.mercari_user
-        end
+        mercari_user = delete_item.mercari_user if i == 0
         delete_item.exhibit_historys.each do |history|
           history.deleteItemFromMercari
         end
