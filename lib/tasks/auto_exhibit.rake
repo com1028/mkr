@@ -18,7 +18,6 @@ namespace :auto_exhibit do
         next_exhibit_item = nil
       else
         next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
-
         # 前回の出品から出品時間(デフォルトは2時間)が経過している場合
         exhibit_interval = mercari_user.exhibit_interval
         exhibit_interval = 2 if exhibit_interval.blank?
@@ -34,6 +33,5 @@ namespace :auto_exhibit do
         end
       end
     end
-
   end
 end
