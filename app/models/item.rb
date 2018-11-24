@@ -87,7 +87,13 @@ class Item < ApplicationRecord
     end
   end
 
-  def deleteIfExistComment
+  def deleteItemFromMercari
+    exhibit_historys.each do |history|
+      history.deleteItemFromMercari
+    end
+  end
+
+  def deleteIfNotExistComment
     exhibit_historys.each do |exhibit_history|
       unless exhibit_history.existComment?
         exhibit_history.deleteItemFromMercari

@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
       end
     end
 
-    def delete_selected_item
+    def delete_item
       mercari_user = nil
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
@@ -60,18 +60,10 @@ class ItemsController < ApplicationController
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
-    def delete_selected_item_from_mercari
-      mercari_user = nil
-      item_id_list = params['itemlist']
-      item_id_list.each_with_index do |list, i|
-        delete_item = Item.find_by(id: list)
-        if i == 0
-          mercari_user = delete_item.mercari_user
-        end
-        delete_item.exhibit_historys.each do |history|
-          history.deleteItemFromMercari
-        end
-      end
+    def delete_item_from_mercari
+      item = Item.find_by(id: params[:item_id])
+      mercari_user = item.mercari_user
+      item.deleteItemFromMercari
       flash[:success] = 'メルカリから商品を削除しました'
       # 商品一覧へリダイレクト
       redirect_to items_path(mercari_user_id: mercari_user.id)
