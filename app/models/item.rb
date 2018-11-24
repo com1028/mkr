@@ -35,22 +35,22 @@ class Item < ApplicationRecord
 
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
-    return options[self.item_condition-1]
+    return options[item_condition-1]
   end
 
   def getShippingDuration
     options = ItemConstant::SHIPPING_DURATION_OPTIONS
-    return options[self.shipping_duration-1]
+    return options[shipping_duration-1]
   end
 
   def getShippingFromArea
     options = ItemConstant::SHIPPING_FROM_AREA_OPTIONS
-    return options[self.shipping_from_area-1]
+    return options[shipping_from_area-1]
   end
 
   # 自動出品をするかを返す
   def getAutoExhibitFlag
-    if self.auto_exhibit_flag?
+    if auto_exhibit_flag?
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]
     else
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]
@@ -113,12 +113,12 @@ class Item < ApplicationRecord
   private
 
   def setshipping_payer
-    if self.shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
+    if shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
       # 購入者負担
-      self.shipping_payer = 1
+      shipping_payer = 1
     else
       # 出品者負担
-      self.shipping_payer = 2
+      shipping_payer = 2
     end
   end
 
