@@ -1,5 +1,3 @@
-require 'fileutils'
-
 class MercariUsersController < ApplicationController
   def index
     @mercari_users = current_user.mercari_users
