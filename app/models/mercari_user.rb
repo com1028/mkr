@@ -11,8 +11,15 @@ class MercariUser < ApplicationRecord
   validates :access_token, presence: true
   validates :global_access_token, presence: true
   validates :image_full_filepath, presence: true
+  validates :exhibit_interval, :numericality => {greater_than_or_equal_to: 2}
 
   mount_uploader :image_full_filepath, ImageUploader
+
+  scope :in_not_progress_user, -> (id){find_by(id: id, in_progress: false)}
+  scope :in_progress_user, -> (id){find_by(id: id, in_progress: true)}
+
+  # 全ての「自動出品中」ユーザを取得
+  scope :all_in_progress_user, -> {where(in_progress: true)}
 
   def setMercariToken()
     return if !fill_in_form?()

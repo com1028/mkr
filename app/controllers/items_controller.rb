@@ -53,18 +53,13 @@ class ItemsController < ApplicationController
     end
 
     def delete_selected_item
-      @mercari_user = nil
+      mercari_user = nil
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
         delete_item = Item.find_by(id: list)
-        if i == 0
-          @mercari_user = delete_item.mercari_user
-        end
+        mercari_user = delete_item.mercari_user if i == 0
         delete_item.exhibit_historys.each do |history|
-          # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{@mercari_user.access_token} #{@mercari_user.global_access_token}"
-          result = `#{cmd}`
-          history.delete
+          history.deleteItemFromMercari
         end
         delete_item.delete
         # 商品の画像を削除
@@ -73,45 +68,46 @@ class ItemsController < ApplicationController
       end
       flash[:success] = '商品を削除しました'
       # 商品一覧へリダイレクト
-      redirect_to items_path(mercari_user_id: @mercari_user.id)
+      redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
     def delete_selected_item_from_mercari
-      @mercari_user = nil
+      mercari_user = nil
       item_id_list = params['itemlist']
       item_id_list.each_with_index do |list, i|
         delete_item = Item.find_by(id: list)
         if i == 0
-          @mercari_user = delete_item.mercari_user
+          mercari_user = delete_item.mercari_user
         end
         delete_item.exhibit_historys.each do |history|
-          # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-          cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{history.mercari_item_token} #{@mercari_user.access_token} #{@mercari_user.global_access_token}"
-          result = `#{cmd}`
-          history.delete
+          history.deleteItemFromMercari
         end
       end
       flash[:success] = 'メルカリから商品を削除しました'
       # 商品一覧へリダイレクト
-      redirect_to items_path(mercari_user_id: @mercari_user.id)
+      redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
-    def exhibit
-      @item = Item.find_by(id: params['item_id'])
-      @mercari_user = @item.mercari_user
-      # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-      cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{@item.mercari_user.global_access_token} #{@item.mercari_user.access_token} #{@item.getImageFullPath(@item.image1.to_s)} #{@item.getImageFullPath(@item.image2.to_s)} #{@item.getImageFullPath(@item.image3.to_s)} #{@item.getImageFullPath(@item.image4.to_s)} '#{@item.item_name}' '#{@item.contents}' #{@item.category} #{@item.item_condition} #{@item.shipping_payer} #{@item.shipping_method} #{@item.shipping_from_area} #{@item.shipping_duration} #{@item.price}"
-      result = `#{cmd}`
-      if result.start_with?("m") && !result.include?("\n")
-        # 出品成功時の処理
-        exhibit_history = ExhibitHistory.new(item_id: @item.id, mercari_user_id: @mercari_user.id, user_id: current_user.id, mercari_item_token: result)
-        exhibit_history.save
-      else
-        # 出品失敗時の処理
-      end
+    # 単体で出品
+    def simple_exhibit
+      item = Item.find_by(id: params['item_id'])
+      item.exhibit
+    end
+
+    # 自動出品を開始
+    def start_auto_exhibit
+      auto_exhibit_user = MercariUser.in_not_progress_user(params['mercari_user_id'])
+      auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+    end
+
+    # 自動出品を停止
+    def stop_auto_exhibit
+      auto_exhibit_user = MercariUser.in_progress_user(params['mercari_user_id'])
+      auto_exhibit_user.update(in_progress: false) if auto_exhibit_user.present?
     end
 
     private
+
     def item_params
       params.require(:item).permit(:id, :mercari_user_id, :image1, :image2, :image3, :image4, :item_name,
         :category, :shipping_duration, :item_condition, :price, :shipping_method, :shipping_from_area, :contents, :auto_exhibit_flag,

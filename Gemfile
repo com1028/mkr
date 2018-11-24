@@ -58,3 +58,6 @@ gem 'rmagick'
 
 # MySQLを追加
 gem 'mysql2'
+
+# wheneverを追加
+gem 'whenever', require: false

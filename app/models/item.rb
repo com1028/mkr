@@ -15,12 +15,23 @@ class Item < ApplicationRecord
   validates :shipping_method, presence: true, inclusion: { in: 1..(ItemConstant::SHIPPING_METHODS_BUYER.length +  ItemConstant::SHIPPING_METHODS_SELLER.length)}
   validates :shipping_payer, presence: true, inclusion: { in: 1..2 }
   validates :shipping_from_area, presence: true, inclusion: { in: 1..ItemConstant::SHIPPING_FROM_AREA_OPTIONS.length }
-  validates :contents, length: { maximum: 1000 }
+  validates :contents, length: { in: 1..1000 }
 
   mount_uploader :image1, Image1Uploader
   mount_uploader :image2, Image2Uploader
   mount_uploader :image3, Image3Uploader
   mount_uploader :image4, Image4Uploader
+
+  # 前回に自動出品した商品を取得
+  scope :last_exhibit_item, -> (mercari_user_id){where(mercari_user_id: mercari_user_id).where.not(last_auto_exhibit_date: nil).first}
+  # 次回出品する商品を取得
+  scope :next_exhibit_item, -> (mercari_user_id, last_exhibit_item){last_exhibit_item.next(Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true), mercari_user_id)}
+
+  # 特定のメルカリアカウントが最終自動出品を行った商品の数を取得（通常は0 or 1）
+  scope :final_auto_exhibit_count, -> (mercari_user_id){where(mercari_user_id: mercari_user_id).where.not(last_auto_exhibit_date: nil).count}
+
+  # 特定のメルカリアカウントにおける自動出品対象の商品の数を取得
+  scope :auto_exhibit_count_by_mercari_user, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).count}
 
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
@@ -51,6 +62,36 @@ class Item < ApplicationRecord
       return "#{PathConstant::IMAGE_FILES_ROOT_PATH}#{image}"
     else
       return nil
+    end
+  end
+
+  # 次の自動出品の商品を取得
+  def next(items, mercari_user_id)
+    item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", self.id).order("id ASC").first
+    if item.blank?
+      item = Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
+    end
+    return item
+  end
+
+  def exhibit
+    # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    result = `#{cmd}`
+    if result.start_with?("m") && !result.include?("\n")
+      # 出品成功時の処理
+      exhibit_history = ExhibitHistory.new(item_id: id, mercari_user_id: mercari_user.id, user_id: user.id, mercari_item_token: result)
+      exhibit_history.save
+    else
+      # 出品失敗時の処理
+    end
+  end
+
+  def deleteIfExistComment
+    exhibit_historys.each do |exhibit_history|
+      unless exhibit_history.existComment?
+        exhibit_history.deleteItemFromMercari
+      end
     end
   end
 
