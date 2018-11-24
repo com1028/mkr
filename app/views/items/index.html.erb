@@ -17,15 +17,19 @@
 
   <% @items.each do |item| %>
     <tr id='item<%= item.id %>'>
-      <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0] %></td>
+      <% if item.auto_exhibit_flag %>
+        <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0] %></td>
+      <% else %>
+        <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1] %></td>
+      <% end %>
       <% if item.image1.present? %>
         <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
       <% else %>
         <td class='image1'>(No image)</td>
       <% end %>
       <td class='item_name'><%= item.item_name %></td>
-      <td class='item_condition'><%= ItemConstant::ITEM_CONDITION_OPTIONS[item.item_condition] %></td>
-      <td class='shipping_method'><%= ItemConstant::SHIPPING_METHODS_BUYER[item.shipping_method] %></td>
+      <td class='item_condition'><%= ItemConstant::ITEM_CONDITION_OPTIONS[item.item_condition-1] %></td>
+      <td class='shipping_method'><%= ItemConstant::SHIPPING_METHODS_BUYER[item.shipping_method-1] %></td>
       <td class='price'><%= item.price %>円</td>
       <td class='contents'><%= item.contents %></td>
       <td class='last_exhibit_date'><%=  %></td>
