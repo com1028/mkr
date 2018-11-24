@@ -41,17 +41,6 @@ class ItemsController < ApplicationController
       end
     end
 
-    def update_selected_item
-      @item = Item.find_by(id: item_params['id'])
-      if @item.update_attributes(item_params)
-        flash[:success] = "情報を編集しました"
-        redirect_to items_path(mercari_user_id: @item.mercari_user.id)
-      else
-        flash[:danger] = @item.errors.full_messages
-        redirect_to items_path(mercari_user_id: @item.mercari_user.id)
-      end
-    end
-
     def delete_selected_item
       mercari_user = nil
       item_id_list = params['itemlist']

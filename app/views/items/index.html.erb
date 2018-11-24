@@ -1,167 +1,41 @@
-<%= link_to '商品を追加', new_item_path(mercari_user_id: @mercari_user.id)  %>
 <h2>商品データ一覧</h2>
 
-<%= link_to '商品を削除', 'javascript:item_delete_confirm()', class: 'btn btn-danger' %>
-<%= link_to 'メルカリから商品を削除', 'javascript:item_delete_from_mercari_confirm()', class: 'btn btn-warning' %>
 <%= link_to '自動出品を開始', start_auto_exhibit_path(mercari_user_id: @mercari_user.id), :method => :post, class: 'btn btn-primary' %>
 <%= link_to '自動出品を停止', stop_auto_exhibit_path(mercari_user_id: @mercari_user.id), :method => :post, class: 'btn btn-success' %>
+<%= link_to '商品を追加', new_item_path(mercari_user_id: @mercari_user.id), class: 'btn btn-info'  %>
 <p></p>
 <table class="table table-striped">
-  <th width="100" height=20></th>
-  <th width="120">画像1</th>
-  <th width="120">画像2</th>
-  <th width="120">画像3</th>
-  <th width="120">画像4</th>
+  <th width="1500">自動出品</th>
+  <th width="120">画像</th>
   <th width="3000">商品名</th>
-  <th width="200">カテゴリ</th>
-  <th width="2500">発送までの日数</th>
   <th width="2000">商品の状態</th>
   <th width="2000">配送方法</th>
-  <th width="2000">配送元の地域</th>
   <th width="2000">金額</th>
   <th width="500">内容</th>
-  <th width="1500">自動出品</th>
+  <th width="500">最終出品日時</th>
   <th width="100"></th>
 
   <% @items.each do |item| %>
     <tr id='item<%= item.id %>'>
-        <td height=100><%= check_box_tag "#{item.id}", true, false %></td>
-        <% if item.image1.present? %>
-          <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
-        <% else %>
-          <td class='image1'>(No image)</td>
-        <% end %>
+      <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0] %></td>
+      <% if item.image1.present? %>
+        <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
+      <% else %>
+        <td class='image1'>(No image)</td>
+      <% end %>
 
-        <% if item.image2.present? %>
-          <td class='image2'><%= image_tag item.image2.thumb100.url %></td>
-        <% else %>
-          <td class='image2'>(No image)</td>
-        <% end %>
-
-        <% if item.image3.present?%>
-          <td class='image3'><%= image_tag item.image3.thumb100.url %></td>
-        <% else %>
-          <td class='image3'>(No image)</td>
-        <% end %>
-
-        <% if item.image4.present?%>
-          <td class='image4'><%= image_tag item.image4.thumb100.url %></td>
-        <% else %>
-          <td class='image4'>(No image)</td>
-        <% end %>
-
-        <td class='item_name'><input type='text' value='<%= item.item_name %>'></td>
-        <td class='category'><%= item.category %></td>
-        <td class='shipping_duration'>
-          <%=
-            select_tag '#', options_for_select(
-            [[ItemConstant::SHIPPING_DURATION_OPTIONS[0],"1"],
-            [ItemConstant::SHIPPING_DURATION_OPTIONS[1],"2"],
-            [ItemConstant::SHIPPING_DURATION_OPTIONS[2],"3"]],
-            :selected=>item.shipping_duration)
-          %>
-        </td>
-        <td class='item_condition'>
-          <%=
-            select_tag '#', options_for_select(
-            [[ItemConstant::ITEM_CONDITION_OPTIONS[0],"1"],
-            [ItemConstant::ITEM_CONDITION_OPTIONS[1],"2"],
-            [ItemConstant::ITEM_CONDITION_OPTIONS[2],"3"],
-            [ItemConstant::ITEM_CONDITION_OPTIONS[3],"4"],
-            [ItemConstant::ITEM_CONDITION_OPTIONS[4],"5"]],
-            :selected=>item.item_condition)
-          %>
-        </td>
-        <td class='shipping_method'>
-          <%=
-            select_tag '#', options_for_select(
-            [[ItemConstant::SHIPPING_METHODS_BUYER[0],"1"],
-            [ItemConstant::SHIPPING_METHODS_BUYER[1],"2"],
-            [ItemConstant::SHIPPING_METHODS_BUYER[2],"3"],
-            [ItemConstant::SHIPPING_METHODS_BUYER[3],"4"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[0],"5"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[1],"6"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[2],"7"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[3],"8"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[4],"9"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[5],"10"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[6],"11"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[7],"12"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[8],"13"],
-            [ItemConstant::SHIPPING_METHODS_SELLER[9],"14"]],
-            :selected=>item.shipping_method)
-          %>
-        </td>
-        <td class='shipping_from_area'>
-          <%=
-            select_tag '#', options_for_select(
-            [[ItemConstant::SHIPPING_FROM_AREA_OPTIONS[0],"1"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[1],"2"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[2],"3"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[3],"4"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[4],"5"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[5],"6"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[6],"7"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[7],"8"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[8],"9"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[9],"10"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[10],"11"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[11],"12"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[12],"13"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[13],"14"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[14],"15"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[15],"16"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[16],"17"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[17],"18"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[18],"19"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[19],"20"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[20],"21"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[21],"22"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[22],"23"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[23],"24"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[24],"25"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[25],"26"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[26],"27"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[27],"28"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[28],"29"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[29],"30"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[30],"31"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[31],"32"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[32],"33"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[33],"34"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[34],"35"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[35],"36"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[36],"37"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[37],"38"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[38],"39"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[39],"40"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[40],"41"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[41],"42"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[42],"43"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[43],"44"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[44],"45"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[45],"46"],
-            [ItemConstant::SHIPPING_FROM_AREA_OPTIONS[46],"47"]],
-            :selected=>item.shipping_from_area)
-          %>
-        </td>
-        <td class='price'>
-          <div style="display:inline-flex"><input type='text' value='<%= item.price %>'>円</div>
-        </td>
-        <td class='contents'><%= item.contents %></td>
-        <td class='auto_exhibit_flag'>
-          <%=
-            select_tag '#', options_for_select(
-            [[ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0],true],
-            [ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1],false]],
-            :selected=>item.auto_exhibit_flag)
-          %>
-        </td>
-        <td>
-          <p><%= link_to '出品', exhibit_path(item_id: item.id), :method => :post, class: 'btn btn-danger' %></p>
-          <p><%= link_to '更新', "javascript:click_update_item(#{item.id})", class: 'btn btn-info' %></p>
-          <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
-        </td>
+      <td class='item_name'><%= item.item_name %></td>
+      <td class='item_condition'><%= ItemConstant::ITEM_CONDITION_OPTIONS[item.item_condition] %></td>
+      <td class='shipping_method'><%= ItemConstant::SHIPPING_METHODS_BUYER[item.shipping_method] %></td>
+      <td class='price'><%= item.price %>円</td>
+      <td class='contents'><%= item.contents %></td>
+      <td class='last_exhibit_date'><%=  %></td>
+      <td>
+        <p><%= link_to '単体出品', exhibit_path(item_id: item.id), :method => :post, class: 'btn btn-info' %></p>
+        <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
+        <p><%= link_to 'メルカリから商品を削除', 'javascript:item_delete_from_mercari_confirm()', class: 'btn btn-warning' %></p>
+        <p><%= link_to '商品を削除', 'javascript:item_delete_confirm()', class: 'btn btn-danger' %></p>
+      </td>
     </tr>
   <% end %>
 </table>
