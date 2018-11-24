@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
       item = Item.find_by(id: params[:item_id])
       mercari_user = item.mercari_user
       item.deleteItem
-      flash[:success] = '商品を削除しました'
+      flash[:success] = "#{item.item_name}を削除しました"
       # 商品一覧へリダイレクト
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
@@ -54,7 +54,7 @@ class ItemsController < ApplicationController
       item = Item.find_by(id: params[:item_id])
       mercari_user = item.mercari_user
       item.deleteItemFromMercari
-      flash[:success] = 'メルカリから商品を削除しました'
+      flash[:success] = "#{item.item_name}をメルカリから削除しました"
       # 商品一覧へリダイレクト
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
@@ -63,6 +63,8 @@ class ItemsController < ApplicationController
     def simple_exhibit
       item = Item.find_by(id: params['item_id'])
       item.exhibit
+      flash[:success] = "#{item.item_name}を出品しました"
+      redirect_to items_path(mercari_user_id: item.mercari_user.id)
     end
 
     # 自動出品を開始
