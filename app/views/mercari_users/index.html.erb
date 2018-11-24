@@ -25,7 +25,7 @@
       <% end %>
     </td>
     <td>（前回の出品日時）</td>
-    <td>商品数</td>
+    <td><%= mercari_user.items.count %></td>
     <td>「出品」ボタンを押せる残回数</td>
     <td><%= link_to 'アカウントを削除', delete_mercari_account_path(mercari_user_id: mercari_user.id), data: {:confirm => '本当にメルカリアカウントを削除しますか？'}, :method => :post, class: 'btn btn-danger' %></td>
   </tr>
