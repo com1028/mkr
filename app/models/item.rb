@@ -115,10 +115,10 @@ class Item < ApplicationRecord
   def setshipping_payer
     if shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
       # 購入者負担
-      shipping_payer = 1
+      self.shipping_payer = 1
     else
       # 出品者負担
-      shipping_payer = 2
+      self.shipping_payer = 2
     end
   end
 
