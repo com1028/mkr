@@ -16,37 +16,3 @@
 //= require_tree .
 //= require jquery
 
-// メルカリアカウント削除の確認ダイアログを表示
-function account_delete_confirm(){
-    delete_mercari_account_id = [];
-    count = 0;
-    $("input[type='checkbox']").filter(":checked").map(function() {
-        id = $(this).attr("id");
-        delete_mercari_account_id.push(id);
-        count ++;
-    });
-    if(count == 0){
-        alert('削除するアカウントを選択してください');
-    }
-    else{
-        if(window.confirm('本当にチェックしたアカウントを削除しますか？（取り消しできません）')){
-            $.ajax({
-                type: 'POST',
-                url: '/delete_selected_mercari_account',
-                data: {
-                    'userlist': delete_mercari_account_id
-                }
-            })
-            .done( (data) => {
-
-            })
-            .fail( (data) => {
-                alert('削除に失敗しました');
-            })
-            .always( (data) => {
-
-            });;
-        }
-    }
-    
-}

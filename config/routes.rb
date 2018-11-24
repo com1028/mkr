@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get  '/home', to: 'home#index'
   get '/login', to: 'home#authentication' 
-  post '/delete_selected_mercari_account', to: 'mercari_users#delete_selected_user'
+  post '/delete_mercari_account', to: 'mercari_users#delete_selected_user'
   post '/delete_item_from_mercari', to: 'items#delete_item_from_mercari'
   post '/delete_item', to: 'items#delete_item'
   post '/exhibit', to: 'items#simple_exhibit'

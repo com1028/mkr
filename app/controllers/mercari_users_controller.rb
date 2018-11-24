@@ -38,8 +38,8 @@ class MercariUsersController < ApplicationController
   end
 
   def delete_selected_user
-    user_id_list = params['userlist']
-    current_user.delete_mercari_users(user_id_list)
+    mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
+    binding.pry
     
     flash[:success] = 'メルカリアカウントを削除しました'
     # メルカリアカウント一覧へリダイレクト
