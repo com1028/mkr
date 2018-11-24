@@ -33,7 +33,7 @@
         <p><%= link_to '単体出品', exhibit_path(item_id: item.id), :method => :post, class: 'btn btn-info' %></p>
         <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
         <p><%= link_to 'メルカリから商品を削除', delete_item_from_mercari_path(item_id: item.id), data: {:confirm => '本当にメルカリから商品を削除しますか？'}, :method => :post, class: 'btn btn-warning' %></p>
-        <p><%= link_to '商品を削除', 'javascript:item_delete_confirm()', class: 'btn btn-danger' %></p>
+        <p><%= link_to '商品を削除', delete_item_path(item_id: item.id), data: {:confirm => '本当に商品を削除しますか？'}, :method => :post, class: 'btn btn-danger' %></p>
       </td>
     </tr>
   <% end %>

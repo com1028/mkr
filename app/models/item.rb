@@ -87,6 +87,15 @@ class Item < ApplicationRecord
     end
   end
 
+  def deleteItem
+    deleteItemFromMercari
+    delete
+    # 商品の画像を削除
+    delete_dir = "#{Rails.root}/public/#{user.class.to_s.underscore}/#{user.id}/#{mercari_user.class.to_s.underscore}/icon/#{mercari_user.id}/item/#{id}"
+    FileUtils.rm_r(delete_dir)
+
+  end
+
   def deleteItemFromMercari
     exhibit_historys.each do |history|
       history.deleteItemFromMercari
