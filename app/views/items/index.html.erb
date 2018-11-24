@@ -9,7 +9,6 @@
   <th width="120">画像</th>
   <th width="3000">商品名</th>
   <th width="2000">商品の状態</th>
-  <th width="2000">配送方法</th>
   <th width="2000">金額</th>
   <th width="500">内容</th>
   <th width="500">最終出品日時</th>
@@ -29,7 +28,6 @@
       <% end %>
       <td class='item_name'><%= item.item_name %></td>
       <td class='item_condition'><%= ItemConstant::ITEM_CONDITION_OPTIONS[item.item_condition-1] %></td>
-      <td class='shipping_method'><%= ItemConstant::SHIPPING_METHODS_BUYER[item.shipping_method-1] %></td>
       <td class='price'><%= item.price %>円</td>
       <td class='contents'><%= item.contents %></td>
       <td class='last_exhibit_date'><%=  %></td>
