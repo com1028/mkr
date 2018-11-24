@@ -69,12 +69,16 @@ class ItemsController < ApplicationController
     def start_auto_exhibit
       auto_exhibit_user = MercariUser.in_not_progress_user(params['mercari_user_id'])
       auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+      flash[:success] = '自動出品を開始しました'
+      redirect_to items_path(mercari_user_id: auto_exhibit_user.id)
     end
 
     # 自動出品を停止
     def stop_auto_exhibit
       auto_exhibit_user = MercariUser.in_progress_user(params['mercari_user_id'])
       auto_exhibit_user.update(in_progress: false) if auto_exhibit_user.present?
+      flash[:danger] = '自動出品を停止しました'
+      redirect_to items_path(mercari_user_id: auto_exhibit_user.id)
     end
 
     private
