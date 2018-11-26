@@ -84,6 +84,7 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
+      return false
     end
   end
 

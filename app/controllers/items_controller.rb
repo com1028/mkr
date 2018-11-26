@@ -62,9 +62,13 @@ class ItemsController < ApplicationController
     # 単体で出品
     def simple_exhibit
       item = Item.find_by(id: params['item_id'])
-      item.exhibit
-      flash[:success] = "#{item.item_name}を出品しました"
+      if item.exhibit
+        flash[:success] = "#{item.item_name}を出品しました"
+      else
+        flash[:danger] = "出品に失敗しました"
+      end
       redirect_to items_path(mercari_user_id: item.mercari_user.id)
+
     end
 
     # 自動出品を開始
