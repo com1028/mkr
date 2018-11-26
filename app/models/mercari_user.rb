@@ -21,12 +21,16 @@ class MercariUser < ApplicationRecord
   # 全ての「自動出品中」ユーザを取得
   scope :all_in_progress_user, -> {where(in_progress: true)}
 
+  def updateAutoToken()
+    self.access_token = getAccessToken()
+    tmp_global_access_token = getGlobalAccessToken()
+    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+  end
+
   def setMercariToken()
     return if !fill_in_form?()
     if self.email_changed? || self.password_changed?
-      self.access_token = getAccessToken()
-      tmp_global_access_token = getGlobalAccessToken()
-      self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+      self.updateAutoToken
     end
   end
 
