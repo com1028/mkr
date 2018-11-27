@@ -10,6 +10,7 @@ class MercariUser < ApplicationRecord
   validates :password, presence: true
   validates :access_token, presence: true
   validates :global_access_token, presence: true
+  validates :refresh_token, presence: true
   validates :image_full_filepath, presence: true
   validates :exhibit_interval, :numericality => {greater_than_or_equal_to: 2}
 
@@ -22,10 +23,10 @@ class MercariUser < ApplicationRecord
   scope :all_in_progress_user, -> {where(in_progress: true)}
 
   def getAuthToken
-    # self.access_token = getAccessToken()
-    # tmp_global_access_token = getGlobalAccessToken()
-    # self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
-    setRefreshToken()
+    self.access_token = getAccessToken()
+    tmp_global_access_token = getGlobalAccessToken()
+    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    self.refresh_token = setRefreshToken()
   end
 
   def updateAutoToken
@@ -59,7 +60,6 @@ class MercariUser < ApplicationRecord
       # OK
       re = Regexp.new('(refresh_token\":\"(.*?)")')
       m = re.match(res.body)
-      binding.pry
       return m[2]
     else
       # NG
