@@ -118,8 +118,7 @@ class MercariUser < ApplicationRecord
         self.global_access_token = m[2]
         re2 = Regexp.new('(global_refresh_token":"(.*?)")')
         m2 = re2.match(res.body)
-        binding.pry
-         return m[2]
+        authGlobalAccessToken()
        else
          # NG
       # NG
@@ -129,6 +128,40 @@ class MercariUser < ApplicationRecord
       puts "----------------------------------------------------------------------------------------------------------------"
        end
 
+  end
+
+  def authGlobalAccessToken
+    uri = URI.parse("https://api.mercari.jp/users/login?_global_access_token=#{self.global_access_token}")
+    https = Net::HTTP.new(uri.host, uri.port)
+
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Accept"] = " application/json"
+    req["Authorization"] = " #{self.access_token}"
+    req["Accept-Language"] = " ja-jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["Connection"] = " close"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+
+    req.body = "iv_cert=tekitouska&email=#{self.email}&revert=check&password=#{self.password}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+
+    else
+      # NG
+      puts "-----------------------------------------authGlobalAccessToken-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
+
+    end
   end
 
   def deleteMercariUser
