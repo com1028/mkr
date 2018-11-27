@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
     def index
       @mercari_user = current_user.mercari_users.find_by(id: params['mercari_user_id'])
-      @items = @mercari_user.items.all
+      @items = @mercari_user.items.all.page(params[:page]).per(1)
     end
 
     def new
