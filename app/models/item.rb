@@ -76,7 +76,7 @@ class Item < ApplicationRecord
 
   def exhibit
     # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{mercari_user.refresh_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
     result = `#{cmd}`
     if result.start_with?("m") && !result.include?("\n")
       # 出品成功時の処理
@@ -84,7 +84,8 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
-      re_exhibit()
+      binding.pry
+      # re_exhibit()
     end
   end
 
