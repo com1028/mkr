@@ -43,7 +43,12 @@ class MercariUsersController < ApplicationController
   end
 
   def update_mercari_auth_token
-    flash[:success] = 'メルカリ認証トークンを更新しました'
+    mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
+    if mercari_user.updateAutoToken()
+      flash[:success] = 'メルカリ認証トークンを更新しました'
+    else
+      flash[:danger] = 'メルカリ認証トークンの更新に失敗しました'
+    end
     redirect_to mercari_users_path
   end
 
