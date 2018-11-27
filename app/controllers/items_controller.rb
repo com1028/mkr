@@ -41,49 +41,20 @@ class ItemsController < ApplicationController
       end
     end
 
-    def update_selected_item
-      @item = Item.find_by(id: item_params['id'])
-      if @item.update_attributes(item_params)
-        flash[:success] = "情報を編集しました"
-        redirect_to items_path(mercari_user_id: @item.mercari_user.id)
-      else
-        flash[:danger] = @item.errors.full_messages
-        redirect_to items_path(mercari_user_id: @item.mercari_user.id)
-      end
-    end
-
-    def delete_selected_item
-      mercari_user = nil
-      item_id_list = params['itemlist']
-      item_id_list.each_with_index do |list, i|
-        delete_item = Item.find_by(id: list)
-        mercari_user = delete_item.mercari_user if i == 0
-        delete_item.exhibit_historys.each do |history|
-          history.deleteItemFromMercari
-        end
-        delete_item.delete
-        # 商品の画像を削除
-        delete_dir = "#{Rails.root}/public/#{delete_item.user.class.to_s.underscore}/#{delete_item.user.id}/#{delete_item.mercari_user.class.to_s.underscore}/icon/#{delete_item.mercari_user.id}/item/#{delete_item.id}"
-        FileUtils.rm_r(delete_dir)
-      end
-      flash[:success] = '商品を削除しました'
+    def delete_item
+      item = Item.find_by(id: params[:item_id])
+      mercari_user = item.mercari_user
+      item.deleteItem
+      flash[:info] = "#{item.item_name}を削除しました"
       # 商品一覧へリダイレクト
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
 
-    def delete_selected_item_from_mercari
-      mercari_user = nil
-      item_id_list = params['itemlist']
-      item_id_list.each_with_index do |list, i|
-        delete_item = Item.find_by(id: list)
-        if i == 0
-          mercari_user = delete_item.mercari_user
-        end
-        delete_item.exhibit_historys.each do |history|
-          history.deleteItemFromMercari
-        end
-      end
-      flash[:success] = 'メルカリから商品を削除しました'
+    def delete_item_from_mercari
+      item = Item.find_by(id: params[:item_id])
+      mercari_user = item.mercari_user
+      item.deleteItemFromMercari
+      flash[:info] = "#{item.item_name}をメルカリから削除しました"
       # 商品一覧へリダイレクト
       redirect_to items_path(mercari_user_id: mercari_user.id)
     end
@@ -91,19 +62,29 @@ class ItemsController < ApplicationController
     # 単体で出品
     def simple_exhibit
       item = Item.find_by(id: params['item_id'])
-      item.exhibit
+      if item.exhibit
+        flash[:success] = "#{item.item_name}を出品しました"
+      else
+        flash[:danger] = "出品に失敗しました"
+      end
+      redirect_to items_path(mercari_user_id: item.mercari_user.id)
+
     end
 
     # 自動出品を開始
     def start_auto_exhibit
       auto_exhibit_user = MercariUser.in_not_progress_user(params['mercari_user_id'])
       auto_exhibit_user.update(in_progress: true) if auto_exhibit_user.present?
+      flash[:success] = '自動出品を開始しました'
+      redirect_to items_path(mercari_user_id: auto_exhibit_user.id)
     end
 
     # 自動出品を停止
     def stop_auto_exhibit
       auto_exhibit_user = MercariUser.in_progress_user(params['mercari_user_id'])
       auto_exhibit_user.update(in_progress: false) if auto_exhibit_user.present?
+      flash[:danger] = '自動出品を停止しました'
+      redirect_to items_path(mercari_user_id: auto_exhibit_user.id)
     end
 
     private

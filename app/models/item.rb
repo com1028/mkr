@@ -35,22 +35,22 @@ class Item < ApplicationRecord
 
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
-    return options[self.item_condition-1]
+    return options[item_condition-1]
   end
 
   def getShippingDuration
     options = ItemConstant::SHIPPING_DURATION_OPTIONS
-    return options[self.shipping_duration-1]
+    return options[shipping_duration-1]
   end
 
   def getShippingFromArea
     options = ItemConstant::SHIPPING_FROM_AREA_OPTIONS
-    return options[self.shipping_from_area-1]
+    return options[shipping_from_area-1]
   end
 
   # 自動出品をするかを返す
   def getAutoExhibitFlag
-    if self.auto_exhibit_flag?
+    if auto_exhibit_flag?
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0]
     else
       return ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1]
@@ -67,11 +67,8 @@ class Item < ApplicationRecord
 
   # 次の自動出品の商品を取得
   def next(items, mercari_user_id)
-    item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", self.id).order("id ASC").first
-    if item.blank?
-      item = Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
-    end
-    return item
+    item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", id).order("id ASC").first
+    item ||= Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
   end
 
   def exhibit
@@ -84,13 +81,46 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
+      re_exhibit()
     end
   end
 
-  def deleteIfExistComment
+  # 出品失敗時に認証トークンを再取得して出品を試みる
+  def re_exhibit
+    # 認証トークンを更新
+    self.mercari_user.updateAutoToken()
+    # 再度、出品処理を実行
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    result = `#{cmd}`
+    if result.start_with?("m") && !result.include?("\n")
+      # 出品成功時の処理
+      exhibit_history = ExhibitHistory.new(item_id: id, mercari_user_id: mercari_user.id, user_id: user.id, mercari_item_token: result)
+      exhibit_history.save
+    else
+      # 出品失敗時の処理
+      return false
+    end
+  end
+
+  def deleteItem
+    deleteItemFromMercari()
+    delete()
+    # 商品の画像を削除
+    delete_dir = "#{Rails.root}/public/#{user.class.to_s.underscore}/#{user.id}/#{mercari_user.class.to_s.underscore}/icon/#{mercari_user.id}/item/#{id}"
+    FileUtils.rm_r(delete_dir)
+
+  end
+
+  def deleteItemFromMercari
+    exhibit_historys.each do |history|
+      history.deleteItemFromMercari()
+    end
+  end
+
+  def deleteIfNotExistComment
     exhibit_historys.each do |exhibit_history|
       unless exhibit_history.existComment?
-        exhibit_history.deleteItemFromMercari
+        exhibit_history.deleteItemFromMercari()
       end
     end
   end
@@ -98,7 +128,7 @@ class Item < ApplicationRecord
   private
 
   def setshipping_payer
-    if self.shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
+    if shipping_method <= ItemConstant::SHIPPING_METHODS_BUYER.length
       # 購入者負担
       self.shipping_payer = 1
     else

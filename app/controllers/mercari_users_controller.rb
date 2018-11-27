@@ -1,5 +1,3 @@
-require 'fileutils'
-
 class MercariUsersController < ApplicationController
   def index
     @mercari_users = current_user.mercari_users
@@ -38,11 +36,19 @@ class MercariUsersController < ApplicationController
   end
 
   def delete_selected_user
-    user_id_list = params['userlist']
-    current_user.delete_mercari_users(user_id_list)
-    
+    mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
+    mercari_user.deleteMercariUser
     flash[:success] = 'メルカリアカウントを削除しました'
-    # メルカリアカウント一覧へリダイレクト
+    redirect_to mercari_users_path
+  end
+
+  def update_mercari_auth_token
+    mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
+    if mercari_user.updateAutoToken()
+      flash[:success] = 'メルカリ認証トークンを更新しました'
+    else
+      flash[:danger] = 'メルカリ認証トークンの更新に失敗しました'
+    end
     redirect_to mercari_users_path
   end
 

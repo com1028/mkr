@@ -21,12 +21,25 @@ class MercariUser < ApplicationRecord
   # 全ての「自動出品中」ユーザを取得
   scope :all_in_progress_user, -> {where(in_progress: true)}
 
+  def getAuthToken
+    self.access_token = getAccessToken()
+    tmp_global_access_token = getGlobalAccessToken()
+    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+  end
+
+  def updateAutoToken
+    self.getAuthToken()
+    if self.save
+      return true
+    else
+      return false
+    end
+  end
+
   def setMercariToken()
     return if !fill_in_form?()
     if self.email_changed? || self.password_changed?
-      self.access_token = getAccessToken()
-      tmp_global_access_token = getGlobalAccessToken()
-      self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+      self.getAuthToken()
     end
   end
 
@@ -36,6 +49,18 @@ class MercariUser < ApplicationRecord
     else
       return true
     end
+  end
+
+  def deleteMercariUser
+    # メルカリユーザの商品データを削除
+    items.each do |item|
+      item.deleteItem()
+    end
+    # 関連するメルカリアカウントのアイコン画像の削除
+    delete_dir = "#{Rails.root}/public/#{self.user.class.to_s.underscore}/#{self.user.id}/#{self.class.to_s.underscore}/icon/#{self.id}"
+    FileUtils.rm_r(delete_dir)
+    # メルカリユーザの削除
+    delete()
   end
 
   private

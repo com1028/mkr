@@ -20,11 +20,11 @@ namespace :auto_exhibit do
         next_exhibit_item = mercari_user.items.next_exhibit_item(mercari_user.id, last_exhibit_item)
         # 前回の出品から出品時間(デフォルトは2時間)が経過している場合
         exhibit_interval = mercari_user.exhibit_interval
-        exhibit_interval = 2 if exhibit_interval.blank?
+        exhibit_interval ||= 2
         if (last_exhibit_item.last_auto_exhibit_date.present? && Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + exhibit_interval.hour)  ||
           last_exhibit_item.last_auto_exhibit_date.blank?
           # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
-          next_exhibit_item.deleteIfExistComment
+          next_exhibit_item.deleteIfNotExistComment()
           # 出品処理
           next_exhibit_item.exhibit
           # 最終自動出品日時を更新
