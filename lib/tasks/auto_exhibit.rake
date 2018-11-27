@@ -24,7 +24,7 @@ namespace :auto_exhibit do
         if (last_exhibit_item.last_auto_exhibit_date.present? && Time.now >= last_exhibit_item.last_auto_exhibit_date.to_time + exhibit_interval.hour)  ||
           last_exhibit_item.last_auto_exhibit_date.blank?
           # 過去の同じ商品の出品でコメントのあった商品はメルカリ上から削除
-          next_exhibit_item.deleteIfNotExistComment
+          next_exhibit_item.deleteIfNotExistComment()
           # 出品処理
           next_exhibit_item.exhibit
           # 最終自動出品日時を更新
