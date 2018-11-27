@@ -1,6 +1,6 @@
 class MercariUsersController < ApplicationController
   def index
-    @mercari_users = current_user.mercari_users.page(params[:page]).per(Fixed::MERCARI_USER__PAGENATION_NUM)
+    @mercari_users = current_user.mercari_users.all.page(params[:page]).per(Fixed::MERCARI_USER__PAGENATION_NUM)
   end
 
   def new

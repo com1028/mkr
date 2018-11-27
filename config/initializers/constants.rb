@@ -22,6 +22,6 @@ module PathConstant
 end
 
 module Fixed
-    ITEM_PAGENATION_NUM = 5
+    ITEM_PAGENATION_NUM = 10
     MERCARI_USER__PAGENATION_NUM = 5
 end
