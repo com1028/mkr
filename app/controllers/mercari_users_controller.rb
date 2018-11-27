@@ -22,12 +22,12 @@ class MercariUsersController < ApplicationController
     req["X-PLATFORM"] = " ios"
     req.body = "uuid=#{uuid}"
     res = https.request(req)
-    binding.pry
     case res
     when Net::HTTPSuccess, Net::HTTPRedirection
       # OK
-      re = Regexp.new('(access_token":"(.*?)")')
+      re = Regexp.new('(refresh_token":"(.*?)")')
       m = re.match(res.body)
+      binding.pry
       return m[2]
     else
       # NG
