@@ -27,7 +27,11 @@
     <td>（前回の出品日時）</td>
     <td><%= mercari_user.items.count %></td>
     <td>「出品」ボタンを押せる残回数</td>
-    <td><%= link_to 'アカウントを削除', delete_mercari_account_path(mercari_user_id: mercari_user.id), data: {:confirm => '本当にメルカリアカウントを削除しますか？'}, :method => :post, class: 'btn btn-danger' %></td>
+    <td>
+      <p><%= link_to 'アカウントを削除', delete_mercari_account_path(mercari_user_id: mercari_user.id), data: {:confirm => '本当にメルカリアカウントを削除しますか？'}, :method => :post, class: 'btn btn-danger' %></p>
+      <p><%= link_to '認証トークンを更新', update_mercari_auth_token_path(mercari_user_id: mercari_user.id), data: {:confirm => 'メルカリ認証トークンを更新しますか？(※ 1日1回のみ)'}, :method => :post, class: 'btn btn-info' %></p>
+    </td>
+
   </tr>
 <% end %>
 </table>

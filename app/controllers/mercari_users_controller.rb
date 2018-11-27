@@ -39,7 +39,11 @@ class MercariUsersController < ApplicationController
     mercari_user = MercariUser.find_by(id: params['mercari_user_id'])
     mercari_user.deleteMercariUser
     flash[:success] = 'メルカリアカウントを削除しました'
-    # メルカリアカウント一覧へリダイレクト
+    redirect_to mercari_users_path
+  end
+
+  def update_mercari_auth_token
+    flash[:success] = 'メルカリ認証トークンを更新しました'
     redirect_to mercari_users_path
   end
 
