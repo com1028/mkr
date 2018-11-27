@@ -1,0 +1,52 @@
+<h2>商品データ一覧</h2>
+
+<%= form_tag search_word_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= hidden_field_tag :mercari_user_id, @mercari_user.id %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+
+<% if @mercari_user.in_progress? %>
+  <%= link_to '自動出品を停止', stop_auto_exhibit_path(mercari_user_id: @mercari_user.id), :method => :post, class: 'btn btn-danger' %>
+<% else %>
+  <%= link_to '自動出品を開始', start_auto_exhibit_path(mercari_user_id: @mercari_user.id), :method => :post, class: 'btn btn-primary' %>
+<% end %>
+<%= link_to '商品を追加', new_item_path(mercari_user_id: @mercari_user.id), class: 'btn btn-info'  %>
+<p></p>
+<table class="table table-striped">
+  <th width="1500">自動出品</th>
+  <th width="120">画像</th>
+  <th width="3000">商品名</th>
+  <th width="2000">商品の状態</th>
+  <th width="2000">金額</th>
+  <th width="500">最終出品日時</th>
+  <th width="100"></th>
+
+  <% @items.each do |item| %>
+    <tr id='item<%= item.id %>'>
+      <% if item.auto_exhibit_flag %>
+        <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[0] %></td>
+      <% else %>
+        <td class='auto_exhibit_flag'><%= ItemConstant::AUTO_EXHIBIT_FLAG_OPTIONS[1] %></td>
+      <% end %>
+      <% if item.image1.present? %>
+        <td class='image1'><%= image_tag item.image1.thumb100.url %></td>
+      <% else %>
+        <td class='image1'>(No image)</td>
+      <% end %>
+      <td class='item_name'><%= item.item_name %></td>
+      <td class='item_condition'><%= ItemConstant::ITEM_CONDITION_OPTIONS[item.item_condition-1] %></td>
+      <td class='price'><%= item.price %>円</td>
+      <td class='last_exhibit_date'><%=  %></td>
+      <td>
+        <p><%= link_to '単体出品', exhibit_path(item_id: item.id), :method => :post, class: 'btn btn-info' %></p>
+        <p><%= link_to '詳細情報を編集', edit_item_path(item.id), class: 'btn btn-success' %></p>
+        <p><%= link_to 'メルカリから商品を削除', delete_item_from_mercari_path(item_id: item.id), data: {:confirm => '本当にメルカリから商品を削除しますか？'}, :method => :post, class: 'btn btn-warning' %></p>
+        <p><%= link_to '商品を削除', delete_item_path(item_id: item.id), data: {:confirm => '本当に商品を削除しますか？'}, :method => :post, class: 'btn btn-danger' %></p>
+      </td>
+    </tr>
+  <% end %>
+</table>
+  <%= paginate @items %>
