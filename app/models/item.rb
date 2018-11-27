@@ -68,10 +68,7 @@ class Item < ApplicationRecord
   # 次の自動出品の商品を取得
   def next(items, mercari_user_id)
     item = items.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).where("id > ?", id).order("id ASC").first
-    if item.blank?
-      item = Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
-    end
-    return item
+    item ||= Item.where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).first
   end
 
   def exhibit
@@ -84,7 +81,7 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
-      return re_exhibit()
+      re_exhibit()
     end
   end
 
@@ -107,7 +104,7 @@ class Item < ApplicationRecord
 
   def deleteItem
     deleteItemFromMercari()
-    delete
+    delete()
     # 商品の画像を削除
     delete_dir = "#{Rails.root}/public/#{user.class.to_s.underscore}/#{user.id}/#{mercari_user.class.to_s.underscore}/icon/#{mercari_user.id}/item/#{id}"
     FileUtils.rm_r(delete_dir)

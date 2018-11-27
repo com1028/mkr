@@ -10,7 +10,7 @@ class ExhibitHistory < ApplicationRecord
     # 出品中の商品削除はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
     cmd = "java -jar #{APIConstant::API_PATH}/deleteAPI.jar #{mercari_item_token} #{mercari_user.access_token} #{mercari_user.global_access_token}"
     result = `#{cmd}`
-    self.delete
+    delete()
   end
 
   def existComment?

@@ -54,13 +54,13 @@ class MercariUser < ApplicationRecord
   def deleteMercariUser
     # メルカリユーザの商品データを削除
     items.each do |item|
-      item.deleteItem
+      item.deleteItem()
     end
     # 関連するメルカリアカウントのアイコン画像の削除
     delete_dir = "#{Rails.root}/public/#{self.user.class.to_s.underscore}/#{self.user.id}/#{self.class.to_s.underscore}/icon/#{self.id}"
     FileUtils.rm_r(delete_dir)
     # メルカリユーザの削除
-    delete
+    delete()
   end
 
   private
