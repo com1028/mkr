@@ -22,9 +22,10 @@ class MercariUser < ApplicationRecord
   scope :all_in_progress_user, -> {where(in_progress: true)}
 
   def getAuthToken
-    self.access_token = getAccessToken()
-    tmp_global_access_token = getGlobalAccessToken()
-    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    # self.access_token = getAccessToken()
+    # tmp_global_access_token = getGlobalAccessToken()
+    # self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
+    setRefreshToken()
   end
 
   def updateAutoToken
@@ -33,6 +34,42 @@ class MercariUser < ApplicationRecord
       return true
     else
       return false
+    end
+  end
+
+  def setRefreshToken
+    uuid = SecureRandom.uuid.upcase.gsub('-', '')
+    uri = URI.parse("https://api.mercari.jp/auth/refresh_token")
+    https = Net::HTTP.new(uri.host, uri.port)
+
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["Accept-Language"] = " ja-jp"
+    req["Connection"] = " close"
+    req["Accept"] = " application/json"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+    req.body = "uuid=#{uuid}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+      re = Regexp.new('(refresh_token\":\"(.*?)")')
+      m = re.match(res.body)
+      binding.pry
+      return m[2]
+    else
+      # NG
+      puts "-------------------------------------------Refresh Token-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
+
     end
   end
 
