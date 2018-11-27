@@ -62,3 +62,4 @@ gem 'whenever', require: false
 
 # ページネーション
 gem 'kaminari'
+gem 'kaminari-bootstrap'
