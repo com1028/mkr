@@ -2,7 +2,7 @@
 
 <%= form_tag search_word_path, :method => 'get' do %>
   <p>
-    <%= text_field_tag :search, params[:search] %>
+    <%= text_field_tag :search, params[:search], placeholder: '商品名を検索' %>
     <%= hidden_field_tag :mercari_user_id, @mercari_user.id %>
     <%= submit_tag "Search", :name => nil %>
   </p>
