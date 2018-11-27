@@ -1,7 +1,13 @@
 class ItemsController < ApplicationController
     def index
       @mercari_user = current_user.mercari_users.find_by(id: params['mercari_user_id'])
-      @items = @mercari_user.items.all.page(params[:page]).per(10)
+      @items = @mercari_user.items.all.page(params[:page]).per(Fixed::PAGENATION_NUM)
+    end
+
+    def search_word
+      @mercari_user = current_user.mercari_users.find_by(id: params['mercari_user_id'])
+      s_word = params['search']
+      @items = @mercari_user.items.word_search(s_word).page(params[:page]).per(Fixed::PAGENATION_NUM)
     end
 
     def new

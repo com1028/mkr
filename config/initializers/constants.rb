@@ -20,3 +20,7 @@ end
 module PathConstant
     IMAGE_FILES_ROOT_PATH = "#{Rails.root.to_s}/public"
 end
+
+module Fixed
+    PAGENATION_NUM = 5
+end

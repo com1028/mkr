@@ -33,6 +33,9 @@ class Item < ApplicationRecord
   # 特定のメルカリアカウントにおける自動出品対象の商品の数を取得
   scope :auto_exhibit_count_by_mercari_user, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).count}
 
+  # 商品名が検索結果と一部でもマッチする商品を取得
+  scope :word_search, -> (s_word){where("item_name like '%" + s_word + "%'")}
+
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
     return options[item_condition-1]

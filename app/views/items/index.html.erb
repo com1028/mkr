@@ -1,5 +1,13 @@
 <h2>商品データ一覧</h2>
 
+<%= form_tag search_word_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= hidden_field_tag :mercari_user_id, @mercari_user.id %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+
 <% if @mercari_user.in_progress? %>
   <%= link_to '自動出品を停止', stop_auto_exhibit_path(mercari_user_id: @mercari_user.id), :method => :post, class: 'btn btn-danger' %>
 <% else %>
