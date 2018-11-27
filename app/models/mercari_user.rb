@@ -143,38 +143,38 @@ class MercariUser < ApplicationRecord
     delete()
   end
 
-    def getAccessToken(uuid)
-      uri = URI.parse("https://api.mercari.jp/auth/access_token")
-      https = Net::HTTP.new(uri.host, uri.port)
-      
-      https.use_ssl = true
-      req = Net::HTTP::Post.new(uri.request_uri)
-      req["Host"] = "api.mercari.jp"
-      req["Content-Type"] = " application/x-www-form-urlencoded"
-      req["Accept-Language"] = " ja-jp"
-      req["Connection"] = " close"
-      req["Accept"] = " application/json"
-      req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
-      req["X-APP-VERSION"] = " 18005"
-      req["X-PLATFORM"] = " ios"
-      req.body = "refresh_token=#{self.refresh_token}&uuid=#{uuid}"
-      res = https.request(req)
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        re = Regexp.new('(access_token\":\"(.*?)\")')
-        m = re.match(res.body)
-        self.access_token = m[2]
-        getGlobalAccessToken()
-      else
-        # NG
-        puts "-------------------------------------------Access Token-------------------------------------"
-        # puts uri
-        # puts req
-        puts res.code
-        puts res.body
-        puts "---------------------------------------------------------------------------------------------"
-    end
+  def getAccessToken(uuid)
+    uri = URI.parse("https://api.mercari.jp/auth/access_token")
+    https = Net::HTTP.new(uri.host, uri.port)
+    
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["Accept-Language"] = " ja-jp"
+    req["Connection"] = " close"
+    req["Accept"] = " application/json"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+    req.body = "refresh_token=#{self.refresh_token}&uuid=#{uuid}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+      re = Regexp.new('(access_token\":\"(.*?)\")')
+      m = re.match(res.body)
+      self.access_token = m[2]
+      getGlobalAccessToken()
+    else
+      # NG
+      puts "-------------------------------------------Access Token-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
+  end
 
 
 end
