@@ -84,12 +84,29 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
+      return re_exhibit()
+    end
+  end
+
+  # 出品失敗時に認証トークンを再取得して出品を試みる
+  def re_exhibit
+    # 認証トークンを更新
+    self.mercari_user.updateAutoToken()
+    # 再度、出品処理を実行
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    result = `#{cmd}`
+    if result.start_with?("m") && !result.include?("\n")
+      # 出品成功時の処理
+      exhibit_history = ExhibitHistory.new(item_id: id, mercari_user_id: mercari_user.id, user_id: user.id, mercari_item_token: result)
+      exhibit_history.save
+    else
+      # 出品失敗時の処理
       return false
     end
   end
 
   def deleteItem
-    deleteItemFromMercari
+    deleteItemFromMercari()
     delete
     # 商品の画像を削除
     delete_dir = "#{Rails.root}/public/#{user.class.to_s.underscore}/#{user.id}/#{mercari_user.class.to_s.underscore}/icon/#{mercari_user.id}/item/#{id}"
@@ -99,14 +116,14 @@ class Item < ApplicationRecord
 
   def deleteItemFromMercari
     exhibit_historys.each do |history|
-      history.deleteItemFromMercari
+      history.deleteItemFromMercari()
     end
   end
 
   def deleteIfNotExistComment
     exhibit_historys.each do |exhibit_history|
       unless exhibit_history.existComment?
-        exhibit_history.deleteItemFromMercari
+        exhibit_history.deleteItemFromMercari()
       end
     end
   end
