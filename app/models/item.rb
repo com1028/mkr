@@ -84,7 +84,6 @@ class Item < ApplicationRecord
       exhibit_history.save
     else
       # 出品失敗時の処理
-      binding.pry
       # re_exhibit()
     end
   end
