@@ -25,6 +25,7 @@ class MercariUsersController < ApplicationController
 
   def create
     @mercari_user = current_user.mercari_users.new(mercari_user_params)
+    @mercari_user.getAuthToken()
     if @mercari_user.save
       # メルカリアカウントの作成に成功した場合
       flash[:success] = "メルカリアカウントの登録が完了しました"

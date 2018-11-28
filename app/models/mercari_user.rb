@@ -22,13 +22,6 @@ class MercariUser < ApplicationRecord
   # 全ての「自動出品中」ユーザを取得
   scope :all_in_progress_user, -> {where(in_progress: true)}
 
-  def getAuthToken
-    setRefreshToken()
-    # self.access_token = getAccessToken()
-    # tmp_global_access_token = getGlobalAccessToken()
-    # self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
-  end
-
   def updateAutoToken
     self.getAuthToken()
     if self.save
@@ -38,9 +31,36 @@ class MercariUser < ApplicationRecord
     end
   end
 
-  require 'net/http'
+  def setMercariToken()
+    return if !fill_in_form?()
+    if self.email_changed? || self.password_changed?
+      self.getAuthToken()
+    end
+  end
 
-  def setRefreshToken
+  def fill_in_form?
+    if self.email.length() == 0 || self.password.length() == 0 || self.name.length() == 0
+      return false
+    else
+      return true
+    end
+  end
+
+  def deleteMercariUser
+    # メルカリユーザの商品データを削除
+    items.each do |item|
+      item.deleteItem()
+    end
+    # 関連するメルカリアカウントのアイコン画像の削除
+    delete_dir = "#{Rails.root}/public/#{self.user.class.to_s.underscore}/#{self.user.id}/#{self.class.to_s.underscore}/icon/#{self.id}"
+    FileUtils.rm_r(delete_dir)
+    # メルカリユーザの削除
+    delete()
+  end
+
+  require 'net/http'
+  
+  def getAuthToken
     uuid = SecureRandom.uuid.upcase.gsub('-', '')
     uri = URI.parse("https://api.mercari.jp/auth/refresh_token")
     https = Net::HTTP.new(uri.host, uri.port)
@@ -75,21 +95,6 @@ class MercariUser < ApplicationRecord
 
     end
   end
-
-  def setMercariToken()
-    return if !fill_in_form?()
-    if self.email_changed? || self.password_changed?
-      self.getAuthToken()
-    end
-  end
-
-  def fill_in_form?
-    if self.email.length() == 0 || self.password.length() == 0 || self.name.length() == 0
-      return false
-    else
-      return true
-    end
-  end
   
   def getGlobalAccessToken
     access_token = self.access_token
@@ -107,27 +112,25 @@ class MercariUser < ApplicationRecord
     req["X-PLATFORM"] = "ios"
 
     http = Net::HTTP.new(uri.host, uri.port)
-       http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
-       res = http.request(req)
+    http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
+    res = http.request(req)
 
-       case res
-       when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        re = Regexp.new('(global_access_token":"(.*?)")')
-        m = re.match(res.body)
-        self.global_access_token = m[2]
-        re2 = Regexp.new('(global_refresh_token":"(.*?)")')
-        m2 = re2.match(res.body)
-        authGlobalAccessToken()
-       else
-         # NG
-      # NG
-      puts "-------------------------------------------Global Access Token-------------------------------------"
-      puts res.code
-      puts res.body
-      puts "----------------------------------------------------------------------------------------------------------------"
-       end
-
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+    # OK
+    re = Regexp.new('(global_access_token":"(.*?)")')
+    m = re.match(res.body)
+    self.global_access_token = m[2]
+    # re2 = Regexp.new('(global_refresh_token":"(.*?)")')
+    # m2 = re2.match(res.body)
+    # authGlobalAccessToken()
+    else
+    # NG
+    puts "-------------------------------------------Global Access Token-------------------------------------"
+    puts res.code
+    puts res.body
+    puts "----------------------------------------------------------------------------------------------------------------"
+    end
   end
 
   def authGlobalAccessToken
@@ -164,18 +167,6 @@ class MercariUser < ApplicationRecord
     end
   end
 
-  def deleteMercariUser
-    # メルカリユーザの商品データを削除
-    items.each do |item|
-      item.deleteItem()
-    end
-    # 関連するメルカリアカウントのアイコン画像の削除
-    delete_dir = "#{Rails.root}/public/#{self.user.class.to_s.underscore}/#{self.user.id}/#{self.class.to_s.underscore}/icon/#{self.id}"
-    FileUtils.rm_r(delete_dir)
-    # メルカリユーザの削除
-    delete()
-  end
-
   def getAccessToken(uuid)
     uri = URI.parse("https://api.mercari.jp/auth/access_token")
     https = Net::HTTP.new(uri.host, uri.port)
@@ -207,11 +198,7 @@ class MercariUser < ApplicationRecord
       puts res.code
       puts res.body
       puts "---------------------------------------------------------------------------------------------"
+    end
   end
-
-
-end
-
-
 
 end
