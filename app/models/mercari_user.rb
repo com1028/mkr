@@ -121,9 +121,7 @@ class MercariUser < ApplicationRecord
     re = Regexp.new('(global_access_token":"(.*?)")')
     m = re.match(res.body)
     self.global_access_token = m[2]
-    # re2 = Regexp.new('(global_refresh_token":"(.*?)")')
-    # m2 = re2.match(res.body)
-    # authGlobalAccessToken()
+    authGlobalAccessToken()
     else
     # NG
     puts "-------------------------------------------Global Access Token-------------------------------------"
