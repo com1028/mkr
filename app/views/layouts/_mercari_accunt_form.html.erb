@@ -1,26 +1,25 @@
 <%= form_for(@mercari_user) do |f| %>
-    <%= render 'shared/error_messages' %>
+  <%= render 'shared/error_messages' %>
 
-    <% if @mercari_user.image_full_filepath? %>
-        <%# 画像を一度選択している場合 %>
-        <%= image_tag @mercari_user.image_full_filepath.url, :size => "300x300" %>
-        <%= f.file_field :image_full_filepath %>
-        <%= f.hidden_field :image_full_filepath_cache %>
-        <br>
-    <% else %>
-        <%= f.label :image_full_filepath %><br>
-        <%= f.file_field :image_full_filepath %>
-    <% end %>
-    
+  <% if @mercari_user.image_full_filepath? %>
+    <%# 画像を一度選択している場合 %>
+    <%= image_tag @mercari_user.image_full_filepath.url, :size => "300x300" %>
+    <%= f.file_field :image_full_filepath %>
+    <%= f.hidden_field :image_full_filepath_cache %>
+    <br>
+  <% else %>
+    <%= f.label :image_full_filepath %><br>
+    <%= f.file_field :image_full_filepath %>
+  <% end %>
 
-    <%= f.label :表示名 %>
-    <%= f.text_field :name, class: 'form-control' %>
+  <%= f.label :表示名 %>
+  <%= f.text_field :name, class: 'form-control' %>
 
-    <%= f.label :メルカリのメールアドレス %>
-    <%= f.email_field :email, class: 'form-control' %>
+  <%= f.label :メルカリのメールアドレス %>
+  <%= f.email_field :email, class: 'form-control' %>
 
-    <%= f.label :メルカリのパスワード %>
-    <%= f.text_field :password, class: 'form-control' %>
+  <%= f.label :メルカリのパスワード %>
+  <%= f.text_field :password, class: 'form-control' %>
 
-    <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>
