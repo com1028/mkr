@@ -33,6 +33,9 @@ class Item < ApplicationRecord
   # 特定のメルカリアカウントにおける自動出品対象の商品の数を取得
   scope :auto_exhibit_count_by_mercari_user, -> (mercari_user_id){where(mercari_user_id: mercari_user_id, auto_exhibit_flag: true).count}
 
+  # 商品名が検索結果と一部でもマッチする商品を取得
+  scope :word_search, -> (s_word){where("item_name like '%" + s_word + "%'")}
+
   def getItemCondition
     options = ItemConstant::ITEM_CONDITION_OPTIONS
     return options[item_condition-1]
@@ -73,7 +76,7 @@ class Item < ApplicationRecord
 
   def exhibit
     # メルカリへの出品はJavaのAPIを通して行うので、Linux上でjavaコマンドを生成して実行する
-    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{mercari_user.refresh_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
     result = `#{cmd}`
     if result.start_with?("m") && !result.include?("\n")
       # 出品成功時の処理
@@ -90,7 +93,7 @@ class Item < ApplicationRecord
     # 認証トークンを更新
     self.mercari_user.updateAutoToken()
     # 再度、出品処理を実行
-    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
+    cmd = "java -jar #{APIConstant::API_PATH}/exhibitAPI.jar #{mercari_user.global_access_token} #{mercari_user.access_token} #{mercari_user.refresh_token} #{getImageFullPath(image1.to_s)} #{getImageFullPath(image2.to_s)} #{getImageFullPath(image3.to_s)} #{getImageFullPath(image4.to_s)} '#{item_name}' '#{contents}' #{category} #{item_condition} #{shipping_payer} #{shipping_method} #{shipping_from_area} #{shipping_duration} #{price}"
     result = `#{cmd}`
     if result.start_with?("m") && !result.include?("\n")
       # 出品成功時の処理

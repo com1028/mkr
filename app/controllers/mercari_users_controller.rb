@@ -1,6 +1,6 @@
 class MercariUsersController < ApplicationController
   def index
-    @mercari_users = current_user.mercari_users
+    @mercari_users = current_user.mercari_users.all.page(params[:page]).per(Fixed::MERCARI_USER__PAGENATION_NUM)
   end
 
   def new
@@ -25,6 +25,7 @@ class MercariUsersController < ApplicationController
 
   def create
     @mercari_user = current_user.mercari_users.new(mercari_user_params)
+    @mercari_user.getAuthToken()
     if @mercari_user.save
       # メルカリアカウントの作成に成功した場合
       flash[:success] = "メルカリアカウントの登録が完了しました"

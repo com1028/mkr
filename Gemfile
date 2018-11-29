@@ -37,8 +37,6 @@ gem 'devise'
 # Bootstrapをインストール
 gem 'bootstrap-sass', '3.3.7'
 
-
-
 # binding.pryをインストール
 group :development, :test do
   gem 'pry-rails'
@@ -61,3 +59,7 @@ gem 'mysql2'
 
 # wheneverを追加
 gem 'whenever', require: false
+
+# ページネーション
+gem 'kaminari'
+gem 'kaminari-bootstrap'

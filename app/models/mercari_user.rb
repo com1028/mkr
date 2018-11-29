@@ -10,6 +10,7 @@ class MercariUser < ApplicationRecord
   validates :password, presence: true
   validates :access_token, presence: true
   validates :global_access_token, presence: true
+  validates :refresh_token, presence: true
   validates :image_full_filepath, presence: true
   validates :exhibit_interval, :numericality => {greater_than_or_equal_to: 2}
 
@@ -20,12 +21,6 @@ class MercariUser < ApplicationRecord
 
   # 全ての「自動出品中」ユーザを取得
   scope :all_in_progress_user, -> {where(in_progress: true)}
-
-  def getAuthToken
-    self.access_token = getAccessToken()
-    tmp_global_access_token = getGlobalAccessToken()
-    self.global_access_token = getCorrectGlobalAccessToken(tmp_global_access_token)
-  end
 
   def updateAutoToken
     self.getAuthToken()
@@ -63,118 +58,145 @@ class MercariUser < ApplicationRecord
     delete()
   end
 
-  private
-
   require 'net/http'
-    def getAccessToken()
-      uuid = SecureRandom.uuid.upcase.gsub('-', '')
-      uri = URI.parse("https://api.mercari.jp/auth/create_token?uuid=#{uuid}")
+  
+  def getAuthToken
+    uuid = SecureRandom.uuid.upcase.gsub('-', '')
+    uri = URI.parse("https://api.mercari.jp/auth/refresh_token")
+    https = Net::HTTP.new(uri.host, uri.port)
 
-      req = Net::HTTP::Get.new("#{uri.path}?#{uri.query}")
-      req["Host"] = "api.mercari.jp"
-      #req["Accept-Encoding"] = "gzip, deflate"
-      req["Connection"] = "close"
-      req["User-Agent"] = "Mercari_r/5311 (iPhone OS 9.3.3; ja-JP; iPhone8,1)"
-      req["Accept"] = "application/json"
-      req["Accept-Language"] = "ja-jp"
-      req["X-PLATFORM"] = "ios"
-      req["X-APP-VERSION"] = "5311"
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
-      res = http.request(req)
-
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        re = Regexp.new('(access_token":"(.*?)")')
-        m = re.match(res.body)
-        return m[2]
-      else
-        # NG
-        puts "-------------------------------------------Access Token-------------------------------------"
-        puts res.code
-        puts res.body
-        puts "---------------------------------------------------------------------------------------------"
-
-      end
-
-    end
-
-    def getGlobalAccessToken()
-      access_token = self.access_token
-      uri = URI.parse("https://api.mercari.jp/global_token/get?_access_token=#{access_token}")
-
-      req = Net::HTTP::Get.new("#{uri.path}?#{uri.query}")
-      req["Host"] = "api.mercari.jp"
-      #req["Accept-Encoding"] = "gzip, deflate"
-      req["Connection"] = "close"
-      req["User-Agent"] = "Mercari_r/5311 (iPhone OS 9.3.3; ja-JP; iPhone8,1)"
-      req["Accept"] = "application/json"
-      req["Accept-Language"] = "ja-jp"
-      req["X-PLATFORM"] = "ios"
-      req["X-APP-VERSION"] = "5311"
-
-      http = Net::HTTP.new(uri.host, uri.port)
-         http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
-         res = http.request(req)
-
-         case res
-         when Net::HTTPSuccess, Net::HTTPRedirection
-           # OK
-           re = Regexp.new('(global_access_token":"(.*?)")')
-           m = re.match(res.body)
-           return m[2]
-         else
-           # NG
-        # NG
-        puts "-------------------------------------------Global Access Token(正しくない方)-------------------------------------"
-        puts res.code
-        puts res.body
-        puts "----------------------------------------------------------------------------------------------------------------"
-         end
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["Accept-Language"] = " ja-jp"
+    req["Connection"] = " close"
+    req["Accept"] = " application/json"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+    req.body = "uuid=#{uuid}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+      re = Regexp.new('(refresh_token\":\"(.*?)")')
+      m = re.match(res.body)
+      self.refresh_token =  m[2]
+      getAccessToken(uuid)
+    else
+      # NG
+      puts "-------------------------------------------Refresh Token-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
 
     end
+  end
+  
+  def getGlobalAccessToken
+    access_token = self.access_token
+    uri = URI.parse("https://api.mercari.jp/global_token/get")
 
-    def getCorrectGlobalAccessToken(tmp_global_access_token)
-      access_token = self.access_token
-      mercari_email = self.email
-      mercari_password = self.password
+    req = Net::HTTP::Get.new("#{uri.path}?#{uri.query}")
+    req["Host"] = "api.mercari.jp"
+    req["Accept-Language"] = "ja-jp"
+    req["Connection"] = "close"
+    req["Accept"] = "application/json"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["X-APP-VERSION"] = "18005"
+    #req["Accept-Encoding"] = "gzip, deflate"
+    req["Authorization"] = "#{self.access_token}"
+    req["X-PLATFORM"] = "ios"
 
-      uri = URI.parse("https://api.mercari.jp/users/login?_global_access_token=#{tmp_global_access_token}&_access_token=#{access_token}")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
+    res = http.request(req)
 
-      req = Net::HTTP::Post.new("#{uri.path}?#{uri.query}")
-      data = "iv_cert=3D2F6B778FE74D30A8C787D77A2134E3&email=#{mercari_email}&revert=check&password=#{mercari_password}"
-      req.body = data
-      req["Host"] = "api.mercari.jp"
-      #req["Accept-Encoding"] = "gzip, deflate"
-      req["Connection"] = "close"
-      req["Content-Type"] = "application/x-www-form-urlencoded"
-      req["User-Agent"] = "Mercari_r/5311 (iPhone OS 9.3.3; ja-JP; iPhone8,1)"
-      req["Accept"] = "application/json"
-      req["Accept-Language"] = "ja-jp"
-      req["X-PLATFORM"] = "ios"
-      req["X-APP-VERSION"] = "5311"
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+    # OK
+    re = Regexp.new('(global_access_token":"(.*?)")')
+    m = re.match(res.body)
+    self.global_access_token = m[2]
+    authGlobalAccessToken()
+    else
+    # NG
+    puts "-------------------------------------------Global Access Token-------------------------------------"
+    puts res.code
+    puts res.body
+    puts "----------------------------------------------------------------------------------------------------------------"
+    end
+  end
 
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = (uri.scheme == 'https') # これ無いとSSLページ接続時に「end of file reached (EOFError)」というエラー出る
-      res = http.request(req)
+  def authGlobalAccessToken
+    uri = URI.parse("https://api.mercari.jp/users/login?_global_access_token=#{self.global_access_token}")
+    https = Net::HTTP.new(uri.host, uri.port)
 
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        re = Regexp.new('(global_access_token":"(.*?)")')
-        m = re.match(res.body)
-        return m[2]
-      else
-        # NG
-        puts "-------------------------------------------Global Access Token-------------------------------------"
-        puts res.code
-        puts res.body
-        puts "---------------------------------------------------------------------------------------------"
-        return
-      end
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Accept"] = " application/json"
+    req["Authorization"] = " #{self.access_token}"
+    req["Accept-Language"] = " ja-jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["Connection"] = " close"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+
+    req.body = "iv_cert=tekitouska&email=#{self.email}&revert=check&password=#{self.password}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+
+    else
+      # NG
+      puts "-----------------------------------------authGlobalAccessToken-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
 
     end
+  end
+
+  def getAccessToken(uuid)
+    uri = URI.parse("https://api.mercari.jp/auth/access_token")
+    https = Net::HTTP.new(uri.host, uri.port)
+    
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(uri.request_uri)
+    req["Host"] = "api.mercari.jp"
+    req["Content-Type"] = " application/x-www-form-urlencoded"
+    req["Accept-Language"] = " ja-jp"
+    req["Connection"] = " close"
+    req["Accept"] = " application/json"
+    req["User-Agent"] = " Mercari_r/18005 (iOS 12.0.1; ja-JP; iPhone11,8)"
+    req["X-APP-VERSION"] = " 18005"
+    req["X-PLATFORM"] = " ios"
+    req.body = "refresh_token=#{self.refresh_token}&uuid=#{uuid}"
+    res = https.request(req)
+    case res
+    when Net::HTTPSuccess, Net::HTTPRedirection
+      # OK
+      re = Regexp.new('(access_token\":\"(.*?)\")')
+      m = re.match(res.body)
+      self.access_token = m[2]
+      getGlobalAccessToken()
+    else
+      # NG
+      puts "-------------------------------------------Access Token-------------------------------------"
+      # puts uri
+      # puts req
+      puts res.code
+      puts res.body
+      puts "---------------------------------------------------------------------------------------------"
+    end
+  end
 
 end
