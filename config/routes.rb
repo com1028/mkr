@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post '/delete_mercari_account', to: 'mercari_users#delete_selected_user'
   post '/update_mercari_auth_token', to: 'mercari_users#update_mercari_auth_token'
   post '/delete_item_from_mercari', to: 'items#delete_item_from_mercari'
+  get '/search_word', to: 'items#search_word'
   post '/delete_item', to: 'items#delete_item'
   post '/exhibit', to: 'items#simple_exhibit'
   post '/start_auto_exhibit', to: 'items#start_auto_exhibit'
